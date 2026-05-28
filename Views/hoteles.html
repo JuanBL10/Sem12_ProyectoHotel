@@ -149,15 +149,18 @@
                             </div>
                             <div class="row">
                                 <label class="form-label" for="telefonoHotel">Teléfono del hotel:</label>
-                                <input type="tel" class="form-control mb-1" id="telefonoHotel" placeholder="Ej: 2245-1234" pattern="[0-9]{4}-[0-9]{4}" required>
+                                <input type="tel" class="form-control mb-1" id="telefonoHotel"
+                                    placeholder="Ej: 2245-1234" pattern="[0-9]{4}-[0-9]{4}" required>
                             </div>
                             <div class="row">
                                 <label class="form-label" for="correoHotel">Correo electrónico del hotel:</label>
-                                <input type="email" class="form-control mb-1" id="correoHotel" placeholder="correo@ejemplo.com" required>
+                                <input type="email" class="form-control mb-1" id="correoHotel"
+                                    placeholder="correo@ejemplo.com" required>
                             </div>
                             <div class="row">
                                 <label class="form-label" for="sitioWebHotel">Sitio web del hotel:</label>
-                                <input type="url" class="form-control mb-1" id="sitioWebHotel" placeholder="https://www.ejemplo.com" required>
+                                <input type="url" class="form-control mb-1" id="sitioWebHotel"
+                                    placeholder="https://www.ejemplo.com" required>
                             </div>
                             <div class="row">
                                 <label class="form-label" for="usuario">Usuario que agrega el hotel:</label>
@@ -166,8 +169,61 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="botonCerrar">Cerrar</button>
-                        <button type="submit" class="btn btn-primary btn-sm" id="botonIngresarDatosHotel" form="formAgregarHotel">Guardar cambios</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                            id="botonCerrar">Cerrar</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="botonIngresarDatosHotel"
+                            form="formAgregarHotel">Guardar cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Editar Hotel -->
+        <div class="modal fade" id="modalEditarHotel" tabindex="-1" aria-labelledby="Titulo">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content bg-warning text-light">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="Titulo">Editar Hotel</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" id="formEditarHotel">
+                            <div class="row">
+                                <label class="form-label" for="idHotelEditar">ID del hotel:</label>
+                                <input type="text" class="form-control mb-1" id="idHotelEditar" disabled>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="nombreHotelEditar">Nombre del hotel:</label>
+                                <input type="text" class="form-control mb-1" id="nombreHotelEditar" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="descripcionHotelEditar">Descripción del hotel:</label>
+                                <input type="text" class="form-control mb-1" id="descripcionHotelEditar" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="telefonoHotelEditar">Teléfono del hotel:</label>
+                                <input type="tel" class="form-control mb-1" id="telefonoHotelEditar"
+                                    placeholder="Ej: 2245-1234" pattern="[0-9]{4}-[0-9]{4}" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="correoHotelEditar">Correo electrónico del hotel:</label>
+                                <input type="email" class="form-control mb-1" id="correoHotelEditar"
+                                    placeholder="correo@ejemplo.com" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="sitioWebHotelEditar">Sitio web del hotel:</label>
+                                <input type="url" class="form-control mb-1" id="sitioWebHotelEditar"
+                                    placeholder="https://www.ejemplo.com" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="usuarioEditar">Usuario que agrega el hotel:</label>
+                                <input type="text" class="form-control mb-1" id="usuarioEditar" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" form="formEditarHotel">Guardar cambios</button>
                     </div>
                 </div>
             </div>
