@@ -1,6 +1,7 @@
 import Hotel from '../Models/hotel.mjs';
 
 const URL = "https://paginas-web-cr.com//Api/hotelApi/hotel/hotel.php";
+let idHotelEliminar = -1;
 
 document.addEventListener('DOMContentLoaded', () => {
     consultarHoteles();
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#modalEditarHotel .btn-close').addEventListener('click', evento => {
         document.getElementById('formEditarHotel').reset();
     });
-    
+
     document.querySelector('#modalEditarHotel .btn-secondary').addEventListener('click', evento => {
         document.getElementById('formEditarHotel').reset();
     });
@@ -40,9 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
         evento.preventDefault();
         enviarDatosEditar();
     });
+
+    document.getElementById('modalEliminarHotel').querySelector('.btn-danger').addEventListener('click', () => {
+        eliminarHotel(idHotelEliminar);
+        console.log(idHotelEliminar);
+        document.querySelector('#modalEliminarHotel .btn-close').click();
+    });
 });
 
-async function consultarHoteles(){
+async function consultarHoteles() {
     try {
         const response = await fetch(URL, {
             method: "GET"
@@ -59,7 +66,7 @@ async function consultarHoteles(){
 async function buscarHotelIdNombre(form) {
     let valorBusqueda = form.barraBusquedaHoteles.value;
     let urlBusqueda = "";
-    
+
     if (isNaN(valorBusqueda)) {
         //Busca por nombre
         urlBusqueda = URL + "?nombre=" + valorBusqueda;
@@ -69,7 +76,7 @@ async function buscarHotelIdNombre(form) {
         urlBusqueda = URL + "?id=" + valorBusqueda;
     }
 
-    try{
+    try {
         const response = await fetch(urlBusqueda, {
             method: "GET"
         });
@@ -86,8 +93,8 @@ function dibujarTabla(dataHoteles) {
     tabla.innerHTML = '';
     dataHoteles.forEach(hotel => {
         console.log(hotel);
-        let fila = 
-        `<tr>
+        let fila =
+            `<tr>
             <td>${hotel.id}</td>
             <td>${hotel.nombre}</td>
             <td>${hotel.descripcion}</td>
@@ -102,7 +109,7 @@ function dibujarTabla(dataHoteles) {
                         data-bs-toggle="modal" data-bs-target="#modalEditarHotel" data-id="${hotel.id}">Editar</button>
                     </div>
                     <div class="row pt-1">
-                        <button class="btn btn-danger btn-sm" data-id="${hotel.id}">Eliminar</button>
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarHotel" data-id="${hotel.id}">Eliminar</button>
                     </div>
                 </div>
             </td>
@@ -115,9 +122,14 @@ function dibujarTabla(dataHoteles) {
             abrirModalEditarHotel(idHotel);
         });
     });
+    document.querySelectorAll('.btn-danger').forEach(boton => {
+        boton.addEventListener('click', evento => {
+            idHotelEliminar = evento.target.dataset.id;
+        });
+    });
 }
 
-async function enviarDatosAgregar(){
+async function enviarDatosAgregar() {
     const hotel = new Hotel(
         null,
         document.getElementById('nombreHotel').value,
@@ -128,11 +140,12 @@ async function enviarDatosAgregar(){
         document.getElementById('usuario').value
     );
 
-    try{
+    try {
         const response = await fetch(URL, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"},
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(hotel)
         });
         const data = await response.json();
@@ -160,7 +173,7 @@ async function abrirModalEditarHotel(id) {
 
 }
 
-async function enviarDatosEditar(){
+async function enviarDatosEditar() {
     const hotelEditar = new Hotel(
         document.getElementById('idHotelEditar').value,
         document.getElementById('nombreHotelEditar').value,
@@ -171,11 +184,12 @@ async function enviarDatosEditar(){
         document.getElementById('usuarioEditar').value
     );
 
-    try{
+    try {
         const response = await fetch(URL, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"},
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(hotelEditar)
         });
         const data = await response.json();
@@ -184,22 +198,41 @@ async function enviarDatosEditar(){
         document.getElementById('modalEditarHotel').querySelector('.btn-close').click();
         consultarHoteles();
     }
-    catch(error){
+    catch (error) {
         console.error("Error al editar el hotel:", error);
     }
 }
 
 async function buscarHotelId(id) {
-        const urlBusqueda = URL + "?id=" + id;
-        try{
-            const response = await fetch(urlBusqueda, {
-                method: "GET"
-            });
-            const data = await response.json();
-            console.log(data.data);
-            return data.data[0];
-        }
-        catch (error) {
-            console.error('Error al buscar el hotel por ID:', error);
-        }
+    const urlBusqueda = URL + "?id=" + id;
+    try {
+        const response = await fetch(urlBusqueda, {
+            method: "GET"
+        });
+        const data = await response.json();
+        console.log(data.data);
+        return data.data[0];
     }
+    catch (error) {
+        console.error('Error al buscar el hotel por ID:', error);
+    }
+}
+
+async function eliminarHotel(id) {
+    try {
+        const response = await fetch(URL, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: id })
+        });
+        const data = await response.json();
+        console.log(data);
+        alert("Hotel eliminado exitosamente");
+        consultarHoteles();
+    }
+    catch (error) {
+        console.error("Error al eliminar el hotel:", error);
+    }
+}
