@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <title>Gestión de hoteles</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS v5.3.8 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <script type="module" src="../Controllers/hotelController.mjs"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Linen & Stone</a> <!-- Aqui me redirige al index -->
+                <button class="navbar-toggler" id="collapsable" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Hoteles
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar hoteles</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sedes
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar sedes</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Habitaciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar habitaciones</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Clientes
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar clientes</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Reservaciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar reservaciones</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Pagos
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar pagos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+
+        <div class="container-fluid">
+            <div class="row mt-2">
+                <div class="col-6 ">
+                    <h2>Hoteles</h2>
+                    <p>Aquí se puede consultar la información de los hoteles.</p>
+                </div>
+                <div class="col-6 d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-primary btn-sm" id="botonAgregarHotel" data-bs-toggle="modal"
+                        data-bs-target="#modalAgregarHotel">
+                        Agregar hoteles
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <form class="d-flex form-group" id="formBusquedaHotel">
+                <input type="text" class="form-control me-2" id="barraBusquedaHoteles"
+                    placeholder="Buscar por ID o nombre del hotel" larg>
+                <button type="submit" class="btn btn-sm" id="botonBuscarHotel">
+                    Buscar
+                </button>
+                <button type="button" class="btn btn-danger btn-sm ms-2" id="botonCancelarBusqueda">
+                    Cancelar Busqueda
+                </button>
+            </form>
+        </div>
+
+        <div class="container-fluid mt-3 mb-3">
+            <div class="card shadow-lg rounded-2">
+                <div class="card-header d-flex justify-content-center p-1 border-info border-2"
+                    id="cardHeaderHotelesConsultar">
+                    <h3>Lista de hoteles</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-success table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Correo electrónico</th>
+                                    <th scope="col">Sitio web</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaHoteles">
+                                <!-- Aquí voy a llenar la tabla con los datos mediante JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Agregar Hotel -->
+        <div class="modal fade" id="modalAgregarHotel" tabindex="-1" aria-labelledby="titulo">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content bg-info text-light">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="titulo">Datos para agregar hotel</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" id="formAgregarHotel">
+                            <div class="row">
+                                <label class="form-label" for="nombreHotel">Nombre del hotel:</label>
+                                <input type="text" class="form-control mb-1" id="nombreHotel" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="descripcionHotel">Descripción del hotel:</label>
+                                <input type="text" class="form-control mb-1" id="descripcionHotel" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="telefonoHotel">Teléfono del hotel:</label>
+                                <input type="tel" class="form-control mb-1" id="telefonoHotel" placeholder="Ej: 2245-1234" pattern="[0-9]{4}-[0-9]{4}" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="correoHotel">Correo electrónico del hotel:</label>
+                                <input type="email" class="form-control mb-1" id="correoHotel" placeholder="correo@ejemplo.com" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="sitioWebHotel">Sitio web del hotel:</label>
+                                <input type="url" class="form-control mb-1" id="sitioWebHotel" placeholder="https://www.ejemplo.com" required>
+                            </div>
+                            <div class="row">
+                                <label class="form-label" for="usuario">Usuario que agrega el hotel:</label>
+                                <input type="text" class="form-control mb-1" id="usuario" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="botonCerrar">Cerrar</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="botonIngresarDatosHotel" form="formAgregarHotel">Guardar cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <p>&copy; 2026 Linen & Stone. Todos los derechos reservados.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <p>Proyecto de Juan Diego Barrantes Loria C31015</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+#navbar {
+    background-color: #F7F3F0 !important;
+}
+#collapsable {
+    background-color: #6B7F6F !important;
+}
+#parrafoHero {
+    text-align: justify;
+}
+#caracteristicas {
+    margin-top: 50px;
+    background-color: #0ec6df !important;
+    border-radius: 10px;
+    padding: 20px;
+}
+#pHospedajeLujo, #pHospitalidadPremium, #pExperienciasUnicas {
+    text-align: justify;
+}
+#misionVision {
+    margin-top: 50px;
+    background-color: #2b68ec !important;
+    border-radius: 10px;
+    padding: 20px;
+}
+#pmision, #pvision {
+    text-align: justify;
+}
+#cardHeaderHotelesConsultar {
+    background-color: #04250a !important;
+    color: #ffffff !important;
+}
+#barraBusquedaHoteles {
+    width: 300px;
+    height: 25px;   
+    font-size: 12px;
+    background-color: #115e01 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+#barraBusquedaHoteles::placeholder {
+    color: #ffffff !important;
+}
+#botonBuscarHotel {
+    background-color: #01d2dac2 !important;
+    color: hsla(0, 0%, 100%, 0.952) !important;
+    border: 50 px !important;
+}
+.navbar-brand {
+    color: #6B7F6F !important;
+}
+.dropdown-menu {
+    background-color: #F7F3F0 !important;
+    border: none !important;
+}
