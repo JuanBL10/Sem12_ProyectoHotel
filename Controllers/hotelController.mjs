@@ -1,7 +1,6 @@
 import Hotel from '../Models/hotel.mjs';
 
 const URL = "https://paginas-web-cr.com//Api/hotelApi/hotel/hotel.php";
-const arrayHoteles = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     consultarHoteles();
@@ -44,15 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function consultarHoteles(){
-    //Copia de hoteles en array para el editar
-    arrayHoteles = [];
     try {
         const response = await fetch(URL, {
             method: "GET"
         });
         const data = await response.json();
         console.log(data.data);
-        arrayHoteles.push(data.data);
         dibujarTabla(data.data);
     }
     catch (error) {
@@ -102,20 +98,22 @@ function dibujarTabla(dataHoteles) {
             <td>
                 <div class="container-fluid">
                     <div class="row pb-1">
-                        <button type="button" class="btn btn-warning btn-sm" 
-                        data-bs-toggle="modal" data-bs-target="#modalEditarHotel"
-                        onclick="abrirModalEditarHotel(${hotel.id}, '${hotel.nombre}', 
-                        '${hotel.descripcion}', '${hotel.telefono}', 
-                        '${hotel.correo}', '${hotel.sitio_web}', 
-                        '${hotel.usuario}')">Editar</button>
+                        <button type="button" class="btn btn-warning btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#modalEditarHotel" data-id="${hotel.id}">Editar</button>
                     </div>
                     <div class="row pt-1">
-                        <button class="btn btn-danger btn-sm" onclick="eliminarHotel(${hotel.id})">Eliminar</button>
+                        <button class="btn btn-danger btn-sm" data-id="${hotel.id}">Eliminar</button>
                     </div>
                 </div>
             </td>
         </tr>`
         tabla.innerHTML += fila;
+    });
+    document.querySelectorAll('.btn-warning').forEach(boton => {
+        boton.addEventListener('click', (evento) => {
+            const idHotel = evento.target.dataset.id;
+            abrirModalEditarHotel(idHotel);
+        });
     });
 }
 
@@ -149,15 +147,17 @@ async function enviarDatosAgregar(){
     }
 }
 
-function abrirModalEditarHotel(id, nombre, descripcion, telefono, correo, sitioWeb, usuario) {
+async function abrirModalEditarHotel(id) {
     //Esto es para que se llene el modal con los datos existentes del hotel
-    document.getElementById('idHotelEditar').value = id;
-    document.getElementById('nombreHotelEditar').value = nombre;
-    document.getElementById('descripcionHotelEditar').value = descripcion;
-    document.getElementById('telefonoHotelEditar').value = telefono;
-    document.getElementById('correoHotelEditar').value = correo;
-    document.getElementById('sitioWebHotelEditar').value = sitioWeb;
-    document.getElementById('usuarioEditar').value = usuario;
+    const dataHotel = await buscarHotelId(id);
+    document.getElementById('idHotelEditar').value = dataHotel.id;
+    document.getElementById('nombreHotelEditar').value = dataHotel.nombre;
+    document.getElementById('descripcionHotelEditar').value = dataHotel.descripcion;
+    document.getElementById('telefonoHotelEditar').value = dataHotel.telefono;
+    document.getElementById('correoHotelEditar').value = dataHotel.correo;
+    document.getElementById('sitioWebHotelEditar').value = dataHotel.sitio_web;
+    document.getElementById('usuarioEditar').value = dataHotel.usuario;
+
 }
 
 async function enviarDatosEditar(){
@@ -188,3 +188,18 @@ async function enviarDatosEditar(){
         console.error("Error al editar el hotel:", error);
     }
 }
+
+async function buscarHotelId(id) {
+        const urlBusqueda = URL + "?id=" + id;
+        try{
+            const response = await fetch(urlBusqueda, {
+                method: "GET"
+            });
+            const data = await response.json();
+            console.log(data.data);
+            return data.data[0];
+        }
+        catch (error) {
+            console.error('Error al buscar el hotel por ID:', error);
+        }
+    }
