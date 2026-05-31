@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS v5.3.8 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../CSS/styles.css">
     <script type="module" src="../Controllers/hotelController.mjs"></script>
 </head>
@@ -80,23 +81,18 @@
                 <div class="col-6 d-flex align-items-center justify-content-center">
                     <button type="button" class="btn btn-primary btn-sm" id="botonAgregarHotel" data-bs-toggle="modal"
                         data-bs-target="#modalAgregarHotel">
-                        Agregar hoteles
+                        <i class="bi bi-plus-circle-fill"></i> Agregar hoteles
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="container-fluid">
-            <form class="d-flex form-group" id="formBusquedaHotel">
-                <input type="text" class="form-control me-2" id="barraBusquedaHoteles"
-                    placeholder="Buscar por ID o nombre del hotel" larg>
-                <button type="submit" class="btn btn-sm" id="botonBuscarHotel">
-                    Buscar
-                </button>
-                <button type="button" class="btn btn-danger btn-sm ms-2" id="botonCancelarBusqueda">
-                    Cancelar Busqueda
-                </button>
-            </form>
+        <div class="container-fluid d-flex">
+            <input type="text" class="form-control me-2" id="barraBusquedaHoteles"
+                placeholder="Buscar por ID o nombre del hotel" aria-label="Buscar hoteles">
+            <button type="button" class="btn btn-light btn-sm ms-2" id="botonLimpiarBusqueda" title="Limpiar búsqueda">
+                <i class="bi bi-eraser-fill"></i>
+            </button> 
         </div>
 
         <div class="container-fluid mt-3 mb-3">
@@ -170,9 +166,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
-                            id="botonCerrar">Cerrar</button>
+                            id="botonCerrar"> <i class="bi bi-x-circle-fill"></i> Cerrar</button>
                         <button type="submit" class="btn btn-primary btn-sm" id="botonIngresarDatosHotel"
-                            form="formAgregarHotel">Guardar cambios</button>
+                            form="formAgregarHotel"> <i class="bi bi-save-fill"></i> Guardar cambios</button>
                     </div>
                 </div>
             </div>
@@ -222,8 +218,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" form="formEditarHotel">Guardar cambios</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"> <i class="bi bi-x-circle-fill"></i> Cerrar</button>
+                        <button type="submit" class="btn btn-primary btn-sm" form="formEditarHotel"> <i class="bi bi-save-fill"></i> Guardar cambios</button>
                     </div>
                 </div>
             </div>
@@ -241,8 +237,8 @@
                         <p>¿Está seguro de que desea eliminar este hotel?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"> <i class="bi bi-x-circle-fill"></i> Cerrar</button>
+                        <button type="button" class="btn btn-danger btn-sm"> <i class="bi bi-trash-fill"></i> Eliminar</button>
                     </div>
                 </div>
             </div>

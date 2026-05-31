@@ -2,16 +2,21 @@ import Hotel from '../Models/hotel.mjs';
 
 const URL = "https://paginas-web-cr.com//Api/hotelApi/hotel/hotel.php";
 let idHotelEliminar = -1;
+let temporizadorBusqueda;
 
 document.addEventListener('DOMContentLoaded', () => {
     consultarHoteles();
 
-    document.getElementById('formBusquedaHotel').addEventListener('submit', (evento) => {
-        evento.preventDefault();
-        buscarHotelIdNombre(formBusquedaHotel);
+    document.getElementById('barraBusquedaHoteles').addEventListener('input', evento => {
+        clearTimeout(temporizadorBusqueda);
+        if(evento.target.value.trim() == ''){
+            consultarHoteles();
+            return;
+        }
+        temporizadorBusqueda = setTimeout(() => buscarHotelIdNombre(evento.target.value.trim()), 300);
     });
 
-    document.getElementById('botonCancelarBusqueda').addEventListener('click', (evento) => {
+    document.getElementById('botonLimpiarBusqueda').addEventListener('click', (evento) => {
         document.getElementById('barraBusquedaHoteles').value = '';
         consultarHoteles();
     });
@@ -63,8 +68,7 @@ async function consultarHoteles() {
     }
 }
 
-async function buscarHotelIdNombre(form) {
-    let valorBusqueda = form.barraBusquedaHoteles.value;
+async function buscarHotelIdNombre(valorBusqueda) {
     let urlBusqueda = "";
 
     if (isNaN(valorBusqueda)) {
@@ -106,10 +110,10 @@ function dibujarTabla(dataHoteles) {
                 <div class="container-fluid">
                     <div class="row pb-1">
                         <button type="button" class="btn btn-warning btn-sm"
-                        data-bs-toggle="modal" data-bs-target="#modalEditarHotel" data-id="${hotel.id}">Editar</button>
+                        data-bs-toggle="modal" data-bs-target="#modalEditarHotel" data-id="${hotel.id}"> <i class="bi bi-brush-fill"></i> Editar</button>
                     </div>
                     <div class="row pt-1">
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarHotel" data-id="${hotel.id}">Eliminar</button>
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarHotel" data-id="${hotel.id}"> <i class="bi bi-trash-fill"></i> Eliminar</button>
                     </div>
                 </div>
             </td>

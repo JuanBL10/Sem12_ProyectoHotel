@@ -33,18 +33,18 @@
     width: 300px;
     height: 25px;   
     font-size: 12px;
-    background-color: #115e01 !important;
+    background-color: #353838 !important;
     color: #ffffff !important;
     border: none !important;
 }
 #barraBusquedaHoteles::placeholder {
     color: #ffffff !important;
 }
-#botonBuscarHotel {
-    background-color: #01d2dac2 !important;
-    color: hsla(0, 0%, 100%, 0.952) !important;
-    border: 50 px !important;
+#botonLimpiarBusqueda {
+    background-color: #353838 !important;
+    color: #ffffff !important;
 }
+
 .navbar-brand {
     color: #6B7F6F !important;
 }
