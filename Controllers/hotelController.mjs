@@ -113,7 +113,8 @@ function dibujarTabla(dataHoteles) {
                         data-bs-toggle="modal" data-bs-target="#modalEditarHotel" data-id="${hotel.id}"> <i class="bi bi-brush-fill"></i> Editar</button>
                     </div>
                     <div class="row pt-1">
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarHotel" data-id="${hotel.id}"> <i class="bi bi-trash-fill"></i> Eliminar</button>
+                        <button class="btn btn-danger btn-sm" type="button"
+                         data-bs-toggle="modal" data-bs-target="#modalEliminarHotel" data-id="${hotel.id}"> <i class="bi bi-trash-fill"></i> Eliminar</button>
                     </div>
                 </div>
             </td>

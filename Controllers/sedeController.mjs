@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#barraBusquedaSedes').value = '';
         consultarSedes();
     });;
+
 });
 
 //Funciones para consultar sedes y dibujar la tabla de sedes
@@ -81,10 +82,10 @@ function dibujarTabla(dataSedes){
             <td>${sede.usuario}</td>
             <td>
                 <div class="container-fluid">
-                    <button class="me-2 btn btn-sm btn-warning">
+                    <button class="me-2 btn btn-sm btn-warning" type="button">
                         <i class="bi bi-brush-fill"></i>Editar
                     </button>
-                    <button class="btn btn-sm btn-danger">
+                    <button class="btn btn-sm btn-danger" type="button">
                         <i class="bi bi-trash-fill"></i>Eliminar
                     </button>
                 </div>

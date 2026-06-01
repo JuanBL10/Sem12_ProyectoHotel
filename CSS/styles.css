@@ -83,3 +83,9 @@
     background-color: #F7F3F0 !important;
     border: none !important;
 }
+
+.botonQueDespliegaBusquedaElementoEnModal {
+    width: 6rem;
+    height: 3rem;
+    font-size: 12px;
+}

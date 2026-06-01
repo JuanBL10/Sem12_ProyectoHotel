@@ -85,8 +85,8 @@
                 <div class="col-12 col-md-3 d-flex align-items-start">
                     <input type="text" class="form-control me-2" id="barraBusquedaSedes"
                         placeholder="Buscar por nombre de sede o por ID de sede" aria-label="Barra de busqueda de sede">
-                    <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaSedes"
-                        title="Limpiar búsqueda"><i class="bi bi-eraser-fill"></i></button>
+                    <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaSedes" title="Limpiar búsqueda"
+                        type="button"><i class="bi bi-eraser-fill"></i></button>
                 </div>
                 <!--Aqui pongo una imagen vacilona para variar un poco con hoteles-->
                 <div class="col-12 col-md-9">
@@ -94,12 +94,19 @@
                         alt="Imagen de hotel">
                 </div>
             </div>
+
+            <!--Aqui voy a poner el boton de agregar-->
+            <div class="row mt-2">
+                <div class="col-3">
+                    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                        data-bs-target="#modalAgregarSede"> <i class="bi bi-plus-circle-fill"></i> Agregar sede</button>
+                </div>
+            </div>
         </div>
 
         <div class="container-fluid mt-3">
             <div class="card shadow-lg">
-                <div class="card-header d-flex align-items-center justify-content-center"
-                id="cardHeaderSedesConsultar">
+                <div class="card-header d-flex align-items-center justify-content-center" id="cardHeaderSedesConsultar">
                     <h3>Lista de sedes</h3>
                 </div>
                 <div class="card-body">
@@ -130,7 +137,126 @@
             </div>
         </div>
 
-        
+        <!--Modal para agregar sede-->
+        <div class="modal fade" id="modalAgregarSede" tabindex="-1" aria-labelledby="tituloModalAgregarSede"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="tituloModalAgregarSede">Agregar sede</h3>
+                        <button type="reset" form="formAgregarSede" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" id="formAgregarSede">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label" for="botonModalAgregarSedeBuscarHotel">Hotel al que
+                                        pertenece la sede:</label>
+                                </div>
+                                <div class="col-2 d-flex align-items-center justify-content-center">
+                                    <input type="text" class="form-control"
+                                        id="inputModalAgregarSedeIdHotelSeleccionado" placeholder="ID"
+                                        aria-label="Input del ID del hotel seleccionado para la sede" disabled required>
+                                </div>
+                                <div class="col-6 d-flex justify-content-end">
+                                    <button class="botonQueDespliegaBusquedaElementoEnModal" type="button"
+                                        id="botonModalAgregarSedeBuscarHotel" data-bs-toggle="modal"
+                                        data-bs-target="#modalAgregarSedeBuscarHotel"> <i class="bi bi-search"></i> Seleccionar
+                                        hotel</button>
+                                </div>
+                            </div>
+                            <label class="form-label" for="inputModalAgregarSedeNombreSede">Nombre de la sede:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedeNombreSede"
+                                placeholder="Nombre de la sede" aria-label="Input del nombre de la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedePais">País:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedePais"
+                                placeholder="País donde se encuentra la sede"
+                                aria-label="Input del país donde se encuentra la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedeProvincia">Provincia:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedeProvincia"
+                                placeholder="Provincia donde se encuentra la sede"
+                                aria-label="Input de la provincia donde se encuentra la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedeCiudad">Ciudad:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedeCiudad"
+                                placeholder="Ciudad donde se encuentra la sede"
+                                aria-label="Input de la ciudad donde se encuentra la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedeDireccion">Dirección:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedeDireccion"
+                                placeholder="Dirección de la sede" aria-label="Input de la dirección de la sede"
+                                required>
+                            <label class="form-label" for="inputModalAgregarSedeTelefono">Teléfono:</label>
+                            <input type="tel" pattern="[0-9]{4}-[0-9]{4}" class="form-control mb-1"
+                                id="inputModalAgregarSedeTelefono" placeholder="Número de teléfono de la sede"
+                                aria-label="Input del número de teléfono de la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedeCorreo">Correo electrónico:</label>
+                            <input type="email" class="form-control mb-1" id="inputModalAgregarSedeCorreo"
+                                placeholder="Correo electrónico de la sede"
+                                aria-label="Input del correo electrónico de la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedeNumHabitaciones">Número de
+                                habitaciones:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedeNumHabitaciones"
+                                placeholder="Número de habitaciones de la sede"
+                                aria-label="Input del número de habitaciones de la sede" required>
+                            <label class="form-label" for="inputModalAgregarSedeUsuario">Usuario:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalAgregarSedeUsuario"
+                                placeholder="Usuario que registra la sede"
+                                aria-label="Input del usuario que registra la sede" required>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal"
+                            for="formAgregarSede">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" form="formAgregarSede">Crear Sede</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Modal para buscar hotel-->
+        <div class="modal fade" id="modalAgregarSedeBuscarHotel" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5">Informacion de hoteles</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center justify-content-center"
+                                    id="cardHeaderSedesAgregarBuscarHotel">
+                                    <h3>Lista de hoteles</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-info">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID del hotel</th>
+                                                    <th scope="col">Nombre de hotel</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaHotelesEnModalAgregarSede">
+                                                <!--Aqui se va a cargar la data de los hoteles-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal para editar sede-->
+
+
+        <!--Modal para eliminar sede-->
+
+
 
     </main>
     <footer>
@@ -154,3 +280,10 @@
 </body>
 
 </html>
+
+<!--Cosas que aprendi haciendo este modulo:
+- se puede hacer reset en los botones sin tener que aplicar un evento 
+como hice en hoteles, para limpiar los forms.
+
+- se puede aplicar eventos directamente a cuando se cierra un modal, aunque en este caso no lo utilice
+-->
