@@ -2,7 +2,7 @@
 <html lang="en" data-bs-theme="light">
 
 <head>
-    <title>Linen & Stone</title>
+    <title>Gestion de sedes</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,7 +10,9 @@
     <!-- Bootstrap CSS v5.3.8 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../CSS/styles.css">
+    <script type="module" src="../Controllers/sedeController.mjs"></script>
 </head>
 
 <body>
@@ -72,75 +74,67 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6 d-flex align-items-center justify-content-center">
-                    <img src="../Resources/Img/hotel.jpg" alt="Habitacion" class="img-fluid rounded">
+                <div class="col-8">
+                    <h2>Sedes</h2>
+                    <p>Aqui se puede consultar la informacion de las sedes.</p>
                 </div>
-                <div class="col-6">
-                    <h1>Bienvenido a Linen & Stone</h1>
-                    <p id="parrafoHero">Tu destino para experiencias de hospedaje excepcionales.
+            </div>
 
-                        En Linen & Stone transformamos cada estadía en una experiencia de tranquilidad,
-                        elegancia y confort. Nuestra cadena hotelera combina arquitectura moderna,
-                        hospitalidad premium y espacios cuidadosamente diseñados para ofrecer
-                        descanso auténtico en cada destino.
-
-                        Más que habitaciones, creamos ambientes donde el lujo se siente natural,
-                        el silencio se disfruta y cada detalle está pensado para desconectarse del ruido exterior.
-
-                        Desde la comodidad de nuestras camas de lino hasta la serenidad de nuestros espacios de piedra,
-                        cada elemento de Linen & Stone está diseñado para brindar una experiencia de hospedaje única.
-                    </p>
+            <div class="row">
+                <!--Aqui voy a poner el menu de buscar-->
+                <div class="col-12 col-md-3 d-flex align-items-start">
+                    <input type="text" class="form-control me-2" id="barraBusquedaSedes"
+                        placeholder="Buscar por nombre de sede o por ID de sede" aria-label="Barra de busqueda de sede">
+                    <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaSedes"
+                        title="Limpiar búsqueda"><i class="bi bi-eraser-fill"></i></button>
+                </div>
+                <!--Aqui pongo una imagen vacilona para variar un poco con hoteles-->
+                <div class="col-12 col-md-9">
+                    <img src="../Resources/Img/hotel_sedes.jpg" class="img-fluid rounded" id="imagenSedes"
+                        alt="Imagen de hotel">
                 </div>
             </div>
         </div>
 
-        <div class="container-fluid p-0 mt-2 mb-2">
-            <img src="../Resources/Img/piscina.jpg" alt="Piscina" class="img-fluid w-100 h-100 rounded">
-        </div>
-
-        <div class="container">
-            <div class="row" id="caracteristicas">
-                <div class="col-4">
-                    <h2 class="text-white">Hospedaje de lujo</h2>
-                    <p class="text-white" id="pHospedajeLujo">En Linen & Stone, cada habitación es un refugio de lujo diseñado para brindar una experiencia de
-                        hospedaje inigualable. Desde nuestras camas de lino hasta los detalles cuidadosamente
-                        seleccionados, cada espacio está pensado para ofrecer comodidad y elegancia en cada estadía.</p>
+        <div class="container-fluid mt-3">
+            <div class="card shadow-lg">
+                <div class="card-header d-flex align-items-center justify-content-center"
+                id="cardHeaderSedesConsultar">
+                    <h3>Lista de sedes</h3>
                 </div>
-                <div class="col-4">
-                    <h2 class="text-white">Hospitalidad premium</h2>
-                    <p class="text-white" id="pHospitalidadPremium">Nuestra hospitalidad premium se refleja en cada interacción. En Linen & Stone, nos esforzamos por
-                        superar las expectativas de nuestros huéspedes, brindando un servicio personalizado y atento que
-                        hace que cada estadía sea memorable y única.</p>
-                </div>
-                <div class="col-4">
-                    <h2 class="text-white">Experiencias únicas</h2>
-                    <p class="text-white" id="pExperienciasUnicas">En Linen & Stone, no solo ofrecemos hospedaje, sino experiencias únicas que transforman cada
-                        estadía en un recuerdo inolvidable. Desde la serenidad de nuestros espacios de piedra hasta la
-                        comodidad de nuestras camas de lino, cada detalle está diseñado para brindar momentos
-                        excepcionales a nuestros huéspedes.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="container mb-3">
-            <div class="row" id="misionVision">
-                <div class="col-6">
-                    <h2 class="text-white">Misión</h2>
-                    <p id="pmision" class="text-white">En Linen & Stone, nuestra misión es proporcionar experiencias de hospedaje excepcionales que
-                        combinen lujo, comodidad y hospitalidad premium. Nos comprometemos a superar las expectativas de
-                        nuestros huéspedes y a crear momentos inolvidables en cada uno de nuestros hoteles.</p>
-                </div>
-                <div class="col-6">
-                    <h2 class="text-white">Visión</h2>
-                    <p id="pvision" class="text-white">Nuestra visión en Linen & Stone es ser reconocidos como la cadena hotelera líder en ofrecer
-                        experiencias de hospedaje únicas y memorables. Nos esforzamos por ser el destino preferido para
-                        aquellos que buscan lujo, comodidad y hospitalidad premium en cada estadía.</p>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID de la sede</th>
+                                    <th scope="col">ID del hotel</th>
+                                    <th scope="col">Nombre de sede</th>
+                                    <th scope="col">País</th>
+                                    <th scope="col">Provincia</th>
+                                    <th scope="col">Ciudad</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Correo electrónico</th>
+                                    <th scope="col">Cantidad de habitaciones</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaSedes">
+                                <!--Aqui se va a cargar la data de las sedes-->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+
+        
+
     </main>
     <footer>
-        <div class="container-fluid">
+        <div class="container-fluid mt-2">
             <div class="row">
                 <div class="col text-center">
                     <p>&copy; 2026 Linen & Stone. Todos los derechos reservados.</p>
