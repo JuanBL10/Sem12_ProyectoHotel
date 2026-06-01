@@ -1,10 +1,14 @@
 import Hotel from '../Models/hotel.mjs';
 
-const URL = "https://paginas-web-cr.com//Api/hotelApi/hotel/hotel.php";
+export const URL = "https://paginas-web-cr.com//Api/hotelApi/hotel/hotel.php";
 let idHotelEliminar = -1;
 let temporizadorBusqueda;
 
 document.addEventListener('DOMContentLoaded', () => {
+    if(document.getElementById('tablaHoteles') == null){
+        return;
+    }
+    
     consultarHoteles();
 
     document.getElementById('barraBusquedaHoteles').addEventListener('input', evento => {
@@ -240,4 +244,31 @@ async function eliminarHotel(id) {
     catch (error) {
         console.error("Error al eliminar el hotel:", error);
     }
+}
+
+//Funciones exportables en sedeController.mjs
+export async function consultarHotelesExportar() {
+    try {
+        const response = await fetch(URL, {
+            method: "GET"
+        });
+        const data = await response.json();
+        return data.data;
+    }
+    catch (error) {
+        console.error('Error al consultar los hoteles:', error);
+    }
+}
+
+export function dibujarTablaExportar(dataHoteles, idTabla) {
+    const tabla = document.getElementById(idTabla);
+    tabla.innerHTML = '';
+    dataHoteles.forEach(hotel => {
+        let fila =
+        `<tr data-id="${hotel.id}">
+            <td>${hotel.id}</td>
+            <td>${hotel.nombre}</td>
+        </tr>`
+        tabla.innerHTML += fila;
+    });
 }
