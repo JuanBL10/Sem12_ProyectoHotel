@@ -265,7 +265,7 @@ export function dibujarTablaExportar(dataHoteles, idTabla) {
     tabla.innerHTML = '';
     dataHoteles.forEach(hotel => {
         let fila =
-        `<tr data-id="${hotel.id}">
+        `<tr data-id="${hotel.id}" data-nombre="${hotel.nombre}">
             <td>${hotel.id}</td>
             <td>${hotel.nombre}</td>
         </tr>`

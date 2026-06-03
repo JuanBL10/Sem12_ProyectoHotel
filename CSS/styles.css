@@ -73,6 +73,12 @@
     background-color: #09e9cb;
     color: #050505;
 }
+#inputModalAgregarSedeIdHotelSeleccionado{
+    font-size: 10px;
+}
+#inputModalAgregarSedeNombreHotelSeleccionado{
+    font-size: 10px;
+}
 
 /*Estilos por clases*/
 

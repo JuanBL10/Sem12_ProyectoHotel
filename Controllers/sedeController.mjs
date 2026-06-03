@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const idHotelSeleccionado = filaSeleccionada.getAttribute('data-id');
+        const nombreHotel = filaSeleccionada.dataset.nombre;
         document.getElementById('inputModalAgregarSedeIdHotelSeleccionado').value = idHotelSeleccionado;
+        document.getElementById('inputModalAgregarSedeNombreHotelSeleccionado').value = nombreHotel;
         document.getElementById('modalAgregarSedeBuscarHotel').querySelector('.btn-close').click();
         
         modalAgregarSede.show();
@@ -123,8 +125,8 @@ function dibujarTablaSedes(dataSedes){
             <td>${sede.cantidad_habitaciones}</td>
             <td>${sede.usuario}</td>
             <td>
-                <div class="container-fluid">
-                    <button class="me-2 btn btn-sm btn-warning" type="button">
+                <div class="container-fluid d-flex gap-2">
+                    <button class="btn btn-sm btn-warning" type="button">
                         <i class="bi bi-brush-fill"></i>Editar
                     </button>
                     <button class="btn btn-sm btn-danger" type="button">
