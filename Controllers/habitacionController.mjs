@@ -149,18 +149,20 @@ async function buscarHabitacionIdNombre(valorBusqueda) {
                 return;
             }
 
-            // Filtra habitaciones por el ID de la primera sede encontrada
-            const idSede = dataSede.data[0].id;
-            const responseHabitaciones = await fetch(URLHabitaciones + '?id_sede=' + idSede, { method: 'GET' });
-            const dataHabitaciones = await responseHabitaciones.json();
-            console.log(dataHabitaciones.data);
-            dibujarTablaHabitaciones(dataHabitaciones.data ?? []);
+            // Busca habitaciones para cada sede encontrada y las combina
+            const sedes = Array.isArray(dataSede.data) ? dataSede.data : [dataSede.data];
+            const promesas = sedes.map(s => fetch(URLHabitaciones + '?id_sede=' + s.id, { method: 'GET' }).then(r => r.json()));
+            const resultados = await Promise.all(promesas);
+            const todasHabitaciones = resultados.flatMap(r => Array.isArray(r.data) ? r.data : (r.data ? [r.data] : []));
+            console.log(todasHabitaciones);
+            dibujarTablaHabitaciones(todasHabitaciones);
         } else {
             // Busca por ID de habitación
             const response = await fetch(URLHabitaciones + '?id=' + valorBusqueda, { method: 'GET' });
             const data = await response.json();
             console.log(data.data);
-            dibujarTablaHabitaciones(data.data ?? []);
+            const resultado = Array.isArray(data.data) ? data.data : (data.data ? [data.data] : []);
+            dibujarTablaHabitaciones(resultado);
         }
     }
     catch (error) {
