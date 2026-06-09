@@ -280,6 +280,43 @@ async function buscarSedeId(id) {
     }
 }
 
+// Funciones exportables en habitacionController.mjs
+
+/**
+ * Consulta todas las sedes de la API y las retorna.
+ * @returns {Array} Arreglo de objetos sede.
+ */
+export async function consultarSedesExportar() {
+    try {
+        const response = await fetch(URLSedes, { method: 'GET' });
+        const data = await response.json();
+        return data.data;
+    }
+    catch (error) {
+        console.error('Error al consultar las sedes:', error);
+    }
+}
+
+/**
+ * Dibuja una tabla de sedes mostrando solo ID y nombre.
+ * Se usa dentro del modal de selección de sede en habitaciones.
+ * @param {Array} dataSedes - Arreglo de objetos sede.
+ * @param {string} idTabla - ID del tbody donde se dibuja la tabla.
+ */
+export function dibujarTablaSedesExportar(dataSedes, idTabla) {
+    const tabla = document.getElementById(idTabla);
+    tabla.innerHTML = '';
+    dataSedes.forEach(sede => {
+        let fila = `<tr data-id="${sede.id}" data-nombre="${sede.nombre}">
+            <td>${sede.id}</td>
+            <td>${sede.nombre}</td>
+        </tr>`;
+        tabla.innerHTML += fila;
+    });
+}
+
+////////////////////////////
+
 async function eliminarSede(id) {
     try {
         const response = await fetch(URLSedes, {
