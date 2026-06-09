@@ -1,14 +1,17 @@
 import Sede from '../Models/sede.mjs';
-import {consultarHotelesExportar, dibujarTablaExportar, buscarHotelIdExportar, URL} from './hotelController.mjs';
+import {consultarHotelesExportar, dibujarTablaExportar, URL} from './hotelController.mjs';
 
 const URLSedes = 'https://paginas-web-cr.com/Api/hotelApi/sede/sede.php';
 let temporizadorBusqueda;
+let idSedeEliminar = -1;
+let idSedeEditar = -1;
+let modoModal = 'agregar';
 
 document.addEventListener('DOMContentLoaded', () => {
     consultarSedes();
 
     //Eventos de barra de busqueda
-    
+
     document.querySelector('#barraBusquedaSedes').addEventListener('input', evento => {
         clearTimeout(temporizadorBusqueda);
 
@@ -28,27 +31,30 @@ document.addEventListener('DOMContentLoaded', () => {
     //Eventos de agregar sede
 
     document.getElementById('botonModalAgregarSedeBuscarHotel').addEventListener('click', async evento => {
+        modoModal = 'agregar';
         const data = await consultarHotelesExportar();
         dibujarTablaExportar(data, 'tablaHotelesEnModalAgregarSede');
     });
 
     document.getElementById('tablaHotelesEnModalAgregarSede').addEventListener('click', evento => {
         const filaSeleccionada = evento.target.closest('tr');
-        const modalAgregarSede = new bootstrap.Modal(document.getElementById('modalAgregarSede'));
-        if(filaSeleccionada == null){
-            modalAgregarSede.show();
-            return;
-        }
+        if(filaSeleccionada == null) return;
+
         const idHotelSeleccionado = filaSeleccionada.getAttribute('data-id');
         const nombreHotel = filaSeleccionada.dataset.nombre;
-        document.getElementById('inputModalAgregarSedeIdHotelSeleccionado').value = idHotelSeleccionado;
-        document.getElementById('inputModalAgregarSedeNombreHotelSeleccionado').value = nombreHotel;
-        document.getElementById('modalAgregarSedeBuscarHotel').querySelector('.btn-close').click();
-        
-        modalAgregarSede.show();
-    });
 
-    //Implementar buscar en el modal de hoteles para agregar sede
+        document.getElementById('modalAgregarSedeBuscarHotel').querySelector('.btn-close').click();
+
+        if(modoModal === 'editar') {
+            document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value = idHotelSeleccionado;
+            document.getElementById('inputModalEditarSedeNombreHotelSeleccionado').value = nombreHotel;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEditarSede')).show();
+        } else {
+            document.getElementById('inputModalAgregarSedeIdHotelSeleccionado').value = idHotelSeleccionado;
+            document.getElementById('inputModalAgregarSedeNombreHotelSeleccionado').value = nombreHotel;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalAgregarSede')).show();
+        }
+    });
 
     document.getElementById('formAgregarSede').addEventListener('submit', evento => {
         evento.preventDefault();
@@ -68,6 +74,33 @@ document.addEventListener('DOMContentLoaded', () => {
         agregarSede(sede);
     });
 
+    //Eventos de editar sede
+
+    document.querySelector('#modalEditarSede .btn-close').addEventListener('click', evento => {
+        document.getElementById('formEditarSede').reset();
+    });
+
+    document.querySelector('#modalEditarSede .btn-secondary').addEventListener('click', evento => {
+        document.getElementById('formEditarSede').reset();
+    });
+
+    document.getElementById('formEditarSede').addEventListener('submit', (evento) => {
+        evento.preventDefault();
+        enviarDatosEditar();
+    });
+
+    document.getElementById('botonModalEditarSedeBuscarHotel').addEventListener('click', async evento => {
+        modoModal = 'editar';
+        const data = await consultarHotelesExportar();
+        dibujarTablaExportar(data, 'tablaHotelesEnModalAgregarSede');
+    });
+
+    //Eventos de eliminar sede
+
+    document.getElementById('modalEliminarSede').querySelector('.btn-danger').addEventListener('click', () => {
+        eliminarSede(idSedeEliminar);
+        document.querySelector('#modalEliminarSede .btn-close').click();
+    });
 });
 
 //Funciones para consultar sedes y dibujar la tabla de sedes
@@ -88,7 +121,7 @@ async function consultarSedes(){
 
 async function buscarSedeIdNombre(valorBusqueda){
     let urlBusqueda = '';
-    
+
     if(isNaN(valorBusqueda)){
         urlBusqueda = URLSedes + '?nombre=' + valorBusqueda;
     } else {
@@ -126,10 +159,12 @@ function dibujarTablaSedes(dataSedes){
             <td>${sede.usuario}</td>
             <td>
                 <div class="container-fluid d-flex gap-2">
-                    <button class="btn btn-sm btn-warning" type="button" data-id="${sede.id}">
+                    <button class="btn btn-sm btn-warning" type="button"
+                    data-bs-toggle="modal" data-bs-target="#modalEditarSede" data-id="${sede.id}">
                         <i class="bi bi-brush-fill"></i>Editar
                     </button>
-                    <button class="btn btn-sm btn-danger" type="button" data-id="${sede.id}">
+                    <button class="btn btn-sm btn-danger" type="button"
+                    data-bs-toggle="modal" data-bs-target="#modalEliminarSede" data-id="${sede.id}">
                         <i class="bi bi-trash-fill"></i>Eliminar
                     </button>
                 </div>
@@ -137,19 +172,21 @@ function dibujarTablaSedes(dataSedes){
         </tr>`;
         tabla.innerHTML += fila;
     });
-    document.querySelectorAll('.btn-warning').forEach(btn => {
+    document.querySelectorAll('#tablaSedes .btn-warning').forEach(btn => {
         btn.addEventListener('click', evento => {
-
+            const idSede = evento.currentTarget.dataset.id;
+            abrirModalEditarSede(idSede);
         });
     });
-    document.querySelectorAll('.btn-danger').forEach(btn => {
+    document.querySelectorAll('#tablaSedes .btn-danger').forEach(btn => {
         btn.addEventListener('click', evento => {
-            
+            idSedeEliminar = evento.currentTarget.dataset.id;
         });
     });
 }
 
 //Funciones para agregar sede
+
 async function agregarSede(sede){
     try{
         const response = await fetch(URLSedes, {
@@ -173,83 +210,91 @@ async function agregarSede(sede){
 ////////////////////////////
 
 async function abrirModalEditarSede(id) {
-    //Esto es para que se llene el modal con los datos existentes de la sede
-    const dataSede = await buscarSedeId(id);
-    const dataNombreHotel = await buscarHotelIdExportar(dataSede.id_hotel)
-    document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value = dataSede.id_hotel;
-    document.getElementById('inputModalEditarSedeNombreHotelSeleccionado').value = dataNombreHotel.nombre;
-    document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value = dataSede.id_hotel;
-
-
-    document.getElementById('nombreHotelEditar').value = dataHotel.nombre;
-    document.getElementById('descripcionHotelEditar').value = dataHotel.descripcion;
-    document.getElementById('telefonoHotelEditar').value = dataHotel.telefono;
-    document.getElementById('correoHotelEditar').value = dataHotel.correo;
-    document.getElementById('sitioWebHotelEditar').value = dataHotel.sitio_web;
-    document.getElementById('usuarioEditar').value = dataHotel.usuario;
-
+    try {
+        const dataSede = await buscarSedeId(id);
+        idSedeEditar = dataSede.id;
+        document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value = dataSede.id_hotel;
+        document.getElementById('inputModalEditarSedeNombreHotelSeleccionado').value = '';
+        document.getElementById('inputModalEditarSedeNombreSede').value = dataSede.nombre;
+        document.getElementById('inputModalEditarSedePais').value = dataSede.pais;
+        document.getElementById('inputModalEditarSedeProvincia').value = dataSede.provincia;
+        document.getElementById('inputModalEditarSedeCiudad').value = dataSede.ciudad;
+        document.getElementById('inputModalEditarSedeDireccion').value = dataSede.direccion;
+        document.getElementById('inputModalEditarSedeTelefono').value = dataSede.telefono;
+        document.getElementById('inputModalEditarSedeCorreo').value = dataSede.correo;
+        document.getElementById('inputModalEditarSedeNumHabitaciones').value = dataSede.cantidad_habitaciones;
+        document.getElementById('inputModalEditarSedeUsuario').value = dataSede.usuario;
+    }
+    catch(error) {
+        alert('Error al cargar los datos de la sede: ' + error.message);
+        console.error(error);
+    }
 }
 
 async function enviarDatosEditar() {
-    const hotelEditar = new Hotel(
-        document.getElementById('idHotelEditar').value,
-        document.getElementById('nombreHotelEditar').value,
-        document.getElementById('descripcionHotelEditar').value,
-        document.getElementById('telefonoHotelEditar').value,
-        document.getElementById('correoHotelEditar').value,
-        document.getElementById('sitioWebHotelEditar').value,
-        document.getElementById('usuarioEditar').value
+    const sedeEditar = new Sede(
+        idSedeEditar,
+        document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value,
+        document.getElementById('inputModalEditarSedeNombreSede').value,
+        document.getElementById('inputModalEditarSedePais').value,
+        document.getElementById('inputModalEditarSedeProvincia').value,
+        document.getElementById('inputModalEditarSedeCiudad').value,
+        document.getElementById('inputModalEditarSedeDireccion').value,
+        document.getElementById('inputModalEditarSedeTelefono').value,
+        document.getElementById('inputModalEditarSedeCorreo').value,
+        document.getElementById('inputModalEditarSedeNumHabitaciones').value,
+        document.getElementById('inputModalEditarSedeUsuario').value
     );
 
     try {
-        const response = await fetch(URL, {
-            method: "PUT",
+        const response = await fetch(URLSedes, {
+            method: 'PUT',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(hotelEditar)
+            body: JSON.stringify(sedeEditar)
         });
         const data = await response.json();
         console.log(data);
-        alert("Hotel editado exitosamente");
-        document.getElementById('modalEditarHotel').querySelector('.btn-close').click();
-        consultarHoteles();
+        alert('Sede editada exitosamente');
+        document.getElementById('modalEditarSede').querySelector('.btn-close').click();
+        consultarSedes();
     }
     catch (error) {
-        console.error("Error al editar el hotel:", error);
+        console.error('Error al editar la sede:', error);
     }
 }
 
-async function buscarHotelId(id) {
-    const urlBusqueda = URL + "?id=" + id;
+async function buscarSedeId(id) {
+    const urlBusqueda = URLSedes + '?id=' + id;
     try {
         const response = await fetch(urlBusqueda, {
-            method: "GET"
+            method: 'GET'
         });
         const data = await response.json();
         console.log(data.data);
         return data.data[0];
     }
     catch (error) {
-        console.error('Error al buscar el hotel por ID:', error);
+        console.error('Error al buscar la sede por ID:', error);
     }
 }
 
-async function eliminarHotel(id) {
+async function eliminarSede(id) {
     try {
-        const response = await fetch(URL, {
-            method: "DELETE",
+        const response = await fetch(URLSedes, {
+            method: 'DELETE',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ id: id })
         });
         const data = await response.json();
         console.log(data);
-        alert("Hotel eliminado exitosamente");
-        consultarHoteles();
+        alert('Sede eliminada exitosamente');
+        consultarSedes();
     }
     catch (error) {
-        console.error("Error al eliminar el hotel:", error);
+        console.error('Error al eliminar la sede:', error);
     }
 }

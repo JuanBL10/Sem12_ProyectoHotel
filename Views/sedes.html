@@ -327,15 +327,30 @@
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal"
                             form="formEditarSede"> <i class="bi bi-x-circle-fill"></i> Cerrar</button>
-                        <button type="submit" class="btn btn-primary" form="formEditarSede"> <i class="bi bi-save-fill"></i> Crear Sede</button>
+                        <button type="submit" class="btn btn-primary" form="formEditarSede"> <i class="bi bi-save-fill"></i> Guardar cambios</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!--Modal para eliminar sede-->
-
-
+        <div class="modal fade" id="modalEliminarSede" tabindex="-1" aria-labelledby="tituloEliminarSede">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="tituloEliminarSede">Eliminar Sede</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Está seguro de que desea eliminar esta sede?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"> <i class="bi bi-x-circle-fill"></i> Cerrar</button>
+                        <button type="button" class="btn btn-danger btn-sm"> <i class="bi bi-trash-fill"></i> Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
     <footer>
