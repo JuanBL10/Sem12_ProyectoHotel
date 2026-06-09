@@ -272,3 +272,18 @@ export function dibujarTablaExportar(dataHoteles, idTabla) {
         tabla.innerHTML += fila;
     });
 }
+
+export async function buscarHotelIdExportar(id) {
+    const urlBusqueda = URL + "?id=" + id;
+    try {
+        const response = await fetch(urlBusqueda, {
+            method: "GET"
+        });
+        const data = await response.json();
+        console.log(data.data);
+        return data.data[0];
+    }
+    catch (error) {
+        console.error('Error al buscar el hotel por ID:', error);
+    }
+}

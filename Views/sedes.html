@@ -255,7 +255,83 @@
         </div>
 
         <!--Modal para editar sede-->
-
+        <div class="modal fade" id="modalEditarSede" tabindex="-1" aria-labelledby="tituloModalEditarSede"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="tituloModalEditarSede">Editar sede</h3>
+                        <button type="reset" form="formEditarSede" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" id="formEditarSede">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="form-label" for="botonModalEditarSedeBuscarHotel">Hotel al que
+                                        pertenece la sede:</label>
+                                </div>
+                                <div class="col-4 d-flex align-items-center gap-1">
+                                    <input type="text" class="form-control"
+                                        id="inputModalEditarSedeIdHotelSeleccionado" placeholder="ID"
+                                        aria-label="Input del ID del hotel seleccionado para la sede" disabled required>
+                                    <input type="text" class="form-control"
+                                    id="inputModalEditarSedeNombreHotelSeleccionado" placeholder="Nombre"
+                                    aria-label="Input del nombre del hotel seleccionado para la sede" disabled required>
+                                </div>
+                                <div class="col-4 d-flex justify-content-end">
+                                    <button class="botonQueDespliegaBusquedaElementoEnModal" type="button"
+                                        id="botonModalEditarSedeBuscarHotel" data-bs-toggle="modal"
+                                        data-bs-target="#modalAgregarSedeBuscarHotel"> <i class="bi bi-search"></i> Seleccionar
+                                        hotel</button>
+                                </div>
+                            </div>
+                            <label class="form-label" for="inputModalEditarSedeNombreSede">Nombre de la sede:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedeNombreSede"
+                                placeholder="Nombre de la sede" aria-label="Input del nombre de la sede" required>
+                            <label class="form-label" for="inputModalEditarSedePais">País:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedePais"
+                                placeholder="País donde se encuentra la sede"
+                                aria-label="Input del país donde se encuentra la sede" required>
+                            <label class="form-label" for="inputModalEditarSedeProvincia">Provincia:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedeProvincia"
+                                placeholder="Provincia donde se encuentra la sede"
+                                aria-label="Input de la provincia donde se encuentra la sede" required>
+                            <label class="form-label" for="inputModalEditarSedeCiudad">Ciudad:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedeCiudad"
+                                placeholder="Ciudad donde se encuentra la sede"
+                                aria-label="Input de la ciudad donde se encuentra la sede" required>
+                            <label class="form-label" for="inputModalEditarSedeDireccion">Dirección:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedeDireccion"
+                                placeholder="Dirección de la sede" aria-label="Input de la dirección de la sede"
+                                required>
+                            <label class="form-label" for="inputModalEditarSedeTelefono">Teléfono:</label>
+                            <input type="tel" pattern="[0-9]{4}-[0-9]{4}" class="form-control mb-1"
+                                id="inputModalEditarSedeTelefono" placeholder="Número de teléfono de la sede"
+                                aria-label="Input del número de teléfono de la sede" required>
+                            <label class="form-label" for="inputModalEditarSedeCorreo">Correo electrónico:</label>
+                            <input type="email" class="form-control mb-1" id="inputModalEditarSedeCorreo"
+                                placeholder="Correo electrónico de la sede"
+                                aria-label="Input del correo electrónico de la sede" required>
+                            <label class="form-label" for="inputModalEditarSedeNumHabitaciones">Número de
+                                habitaciones:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedeNumHabitaciones"
+                                placeholder="Número de habitaciones de la sede"
+                                aria-label="Input del número de habitaciones de la sede" required>
+                            <label class="form-label" for="inputModalEditarSedeUsuario">Usuario:</label>
+                            <input type="text" class="form-control mb-1" id="inputModalEditarSedeUsuario"
+                                placeholder="Usuario que registra la sede"
+                                aria-label="Input del usuario que registra la sede" required>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal"
+                            form="formEditarSede"> <i class="bi bi-x-circle-fill"></i> Cerrar</button>
+                        <button type="submit" class="btn btn-primary" form="formEditarSede"> <i class="bi bi-save-fill"></i> Crear Sede</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--Modal para eliminar sede-->
 

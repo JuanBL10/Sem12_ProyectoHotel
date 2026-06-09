@@ -1,5 +1,5 @@
 import Sede from '../Models/sede.mjs';
-import {consultarHotelesExportar, dibujarTablaExportar, URL} from './hotelController.mjs';
+import {consultarHotelesExportar, dibujarTablaExportar, buscarHotelIdExportar, URL} from './hotelController.mjs';
 
 const URLSedes = 'https://paginas-web-cr.com/Api/hotelApi/sede/sede.php';
 let temporizadorBusqueda;
@@ -126,16 +126,26 @@ function dibujarTablaSedes(dataSedes){
             <td>${sede.usuario}</td>
             <td>
                 <div class="container-fluid d-flex gap-2">
-                    <button class="btn btn-sm btn-warning" type="button">
+                    <button class="btn btn-sm btn-warning" type="button" data-id="${sede.id}">
                         <i class="bi bi-brush-fill"></i>Editar
                     </button>
-                    <button class="btn btn-sm btn-danger" type="button">
+                    <button class="btn btn-sm btn-danger" type="button" data-id="${sede.id}">
                         <i class="bi bi-trash-fill"></i>Eliminar
                     </button>
                 </div>
             </td>
         </tr>`;
         tabla.innerHTML += fila;
+    });
+    document.querySelectorAll('.btn-warning').forEach(btn => {
+        btn.addEventListener('click', evento => {
+
+        });
+    });
+    document.querySelectorAll('.btn-danger').forEach(btn => {
+        btn.addEventListener('click', evento => {
+            
+        });
     });
 }
 
@@ -157,5 +167,89 @@ async function agregarSede(sede){
     }
     catch(error){
         console.error('Error al agregar la sede:', error);
+    }
+}
+
+////////////////////////////
+
+async function abrirModalEditarSede(id) {
+    //Esto es para que se llene el modal con los datos existentes de la sede
+    const dataSede = await buscarSedeId(id);
+    const dataNombreHotel = await buscarHotelIdExportar(dataSede.id_hotel)
+    document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value = dataSede.id_hotel;
+    document.getElementById('inputModalEditarSedeNombreHotelSeleccionado').value = dataNombreHotel.nombre;
+    document.getElementById('inputModalEditarSedeIdHotelSeleccionado').value = dataSede.id_hotel;
+
+
+    document.getElementById('nombreHotelEditar').value = dataHotel.nombre;
+    document.getElementById('descripcionHotelEditar').value = dataHotel.descripcion;
+    document.getElementById('telefonoHotelEditar').value = dataHotel.telefono;
+    document.getElementById('correoHotelEditar').value = dataHotel.correo;
+    document.getElementById('sitioWebHotelEditar').value = dataHotel.sitio_web;
+    document.getElementById('usuarioEditar').value = dataHotel.usuario;
+
+}
+
+async function enviarDatosEditar() {
+    const hotelEditar = new Hotel(
+        document.getElementById('idHotelEditar').value,
+        document.getElementById('nombreHotelEditar').value,
+        document.getElementById('descripcionHotelEditar').value,
+        document.getElementById('telefonoHotelEditar').value,
+        document.getElementById('correoHotelEditar').value,
+        document.getElementById('sitioWebHotelEditar').value,
+        document.getElementById('usuarioEditar').value
+    );
+
+    try {
+        const response = await fetch(URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(hotelEditar)
+        });
+        const data = await response.json();
+        console.log(data);
+        alert("Hotel editado exitosamente");
+        document.getElementById('modalEditarHotel').querySelector('.btn-close').click();
+        consultarHoteles();
+    }
+    catch (error) {
+        console.error("Error al editar el hotel:", error);
+    }
+}
+
+async function buscarHotelId(id) {
+    const urlBusqueda = URL + "?id=" + id;
+    try {
+        const response = await fetch(urlBusqueda, {
+            method: "GET"
+        });
+        const data = await response.json();
+        console.log(data.data);
+        return data.data[0];
+    }
+    catch (error) {
+        console.error('Error al buscar el hotel por ID:', error);
+    }
+}
+
+async function eliminarHotel(id) {
+    try {
+        const response = await fetch(URL, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: id })
+        });
+        const data = await response.json();
+        console.log(data);
+        alert("Hotel eliminado exitosamente");
+        consultarHoteles();
+    }
+    catch (error) {
+        console.error("Error al eliminar el hotel:", error);
     }
 }
