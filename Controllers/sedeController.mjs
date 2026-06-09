@@ -280,6 +280,8 @@ async function buscarSedeId(id) {
     }
 }
 
+export { URLSedes };
+
 // Funciones exportables en habitacionController.mjs
 
 /**

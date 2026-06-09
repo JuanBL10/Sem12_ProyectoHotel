@@ -85,7 +85,7 @@
                 <!-- Barra de búsqueda por ID o número de habitación -->
                 <div class="col-12 col-md-3 d-flex align-items-start">
                     <input type="text" class="form-control me-2" id="barraBusquedaHabitaciones"
-                        placeholder="Buscar por número de habitación o por ID" aria-label="Barra de busqueda de habitacion">
+                        placeholder="Buscar por ID de habitación o ID de sede" aria-label="Barra de busqueda de habitacion">
                     <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaHabitaciones" title="Limpiar búsqueda"
                         type="button"><i class="bi bi-eraser-fill"></i></button>
                 </div>
@@ -117,7 +117,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID de la habitación</th>
-                                    <th scope="col">ID de la sede</th>
+                                    <th scope="col">Sede</th>
                                     <th scope="col">Número</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Precio por noche</th>
@@ -251,27 +251,6 @@
                     </div>
                     <div class="modal-body">
                         <form class="form-group" id="formEditarHabitacion">
-                            <!-- Selector de sede: permite cambiar la sede de la habitación -->
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label" for="botonModalEditarHabitacionBuscarSede">Sede a la que
-                                        pertenece la habitación:</label>
-                                </div>
-                                <div class="col-4 d-flex align-items-center gap-1">
-                                    <input type="text" class="form-control"
-                                        id="inputModalEditarHabitacionIdSedeSeleccionado" placeholder="ID"
-                                        aria-label="ID de la sede seleccionada" disabled required>
-                                    <input type="text" class="form-control"
-                                        id="inputModalEditarHabitacionNombreSedeSeleccionado" placeholder="Nombre"
-                                        aria-label="Nombre de la sede seleccionada" disabled required>
-                                </div>
-                                <div class="col-4 d-flex justify-content-end">
-                                    <!-- Reutiliza el mismo modal de búsqueda de sede -->
-                                    <button class="botonQueDespliegaBusquedaElementoEnModal" type="button"
-                                        id="botonModalEditarHabitacionBuscarSede" data-bs-toggle="modal"
-                                        data-bs-target="#modalAgregarHabitacionBuscarSede"> <i class="bi bi-search"></i> Seleccionar sede</button>
-                                </div>
-                            </div>
                             <label class="form-label" for="inputModalEditarHabitacionNumero">Número de la habitación:</label>
                             <input type="text" class="form-control mb-1" id="inputModalEditarHabitacionNumero"
                                 placeholder="Ej: 101" aria-label="Número de la habitación" required>
