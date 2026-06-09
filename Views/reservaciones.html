@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <title>Gestión de reservaciones</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <script type="module" src="../Controllers/reservacionController.mjs"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Linen & Stone</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Hoteles</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="hoteles.html">Consultar hoteles</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Sedes</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="sedes.html">Consultar sedes</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Habitaciones</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="habitaciones.html">Consultar habitaciones</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Clientes</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="clientes.html">Consultar clientes</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Reservaciones</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="reservaciones.html">Consultar reservaciones</a></li>
+                            </ul>
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Pagos</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Consultar pagos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <h2>Reservaciones</h2>
+                    <p>Aquí se puede consultar la información de las reservaciones.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-3 d-flex align-items-start">
+                    <input type="text" class="form-control me-2" id="barraBusquedaReservaciones"
+                        placeholder="Buscar por ID o estado" aria-label="Barra de búsqueda de reservación">
+                    <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaReservaciones"
+                        title="Limpiar búsqueda" type="button"><i class="bi bi-eraser-fill"></i></button>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-3">
+                    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                        data-bs-target="#modalAgregarReservacion">
+                        <i class="bi bi-plus-circle-fill"></i> Agregar reservación
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de reservaciones -->
+        <div class="container-fluid mt-3">
+            <div class="card shadow-lg">
+                <div class="card-header d-flex align-items-center justify-content-center">
+                    <h3>Lista de reservaciones</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Habitación</th>
+                                    <th scope="col">Fecha entrada</th>
+                                    <th scope="col">Fecha salida</th>
+                                    <th scope="col">Personas</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaReservaciones">
+                                <!-- Los datos se cargan dinámicamente desde reservacionController.mjs -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal agregar reservación -->
+        <div class="modal fade" id="modalAgregarReservacion" tabindex="-1" aria-labelledby="tituloModalAgregarReservacion">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="tituloModalAgregarReservacion">Agregar reservación</h3>
+                        <button type="reset" form="formAgregarReservacion" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" id="formAgregarReservacion">
+
+                            <!-- Seleccionar cliente -->
+                            <div class="row mb-2">
+                                <div class="col-4">
+                                    <label class="form-label">Cliente:</label>
+                                </div>
+                                <div class="col-4 d-flex align-items-center gap-1">
+                                    <input type="text" class="form-control"
+                                        id="inputModalAgregarReservacionIdClienteSeleccionado"
+                                        placeholder="ID" disabled required>
+                                    <input type="text" class="form-control"
+                                        id="inputModalAgregarReservacionNombreClienteSeleccionado"
+                                        placeholder="Nombre" disabled required>
+                                </div>
+                                <div class="col-4 d-flex justify-content-end">
+                                    <button class="botonQueDespliegaBusquedaElementoEnModal" type="button"
+                                        id="botonModalAgregarReservacionBuscarCliente"
+                                        data-bs-toggle="modal" data-bs-target="#modalReservacionBuscarCliente">
+                                        <i class="bi bi-search"></i> Seleccionar cliente
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Seleccionar habitación -->
+                            <div class="row mb-2">
+                                <div class="col-4">
+                                    <label class="form-label">Habitación:</label>
+                                </div>
+                                <div class="col-4 d-flex align-items-center gap-1">
+                                    <input type="text" class="form-control"
+                                        id="inputModalAgregarReservacionIdHabitacionSeleccionado"
+                                        placeholder="ID" disabled required>
+                                    <input type="text" class="form-control"
+                                        id="inputModalAgregarReservacionNumHabitacionSeleccionado"
+                                        placeholder="Número" disabled required>
+                                </div>
+                                <div class="col-4 d-flex justify-content-end">
+                                    <button class="botonQueDespliegaBusquedaElementoEnModal" type="button"
+                                        id="botonModalAgregarReservacionBuscarHabitacion"
+                                        data-bs-toggle="modal" data-bs-target="#modalReservacionBuscarHabitacion">
+                                        <i class="bi bi-search"></i> Seleccionar habitación
+                                    </button>
+                                </div>
+                            </div>
+
+                            <label class="form-label" for="inputModalAgregarReservacionFechaEntrada">Fecha de entrada:</label>
+                            <input type="date" class="form-control mb-1"
+                                id="inputModalAgregarReservacionFechaEntrada" required>
+
+                            <label class="form-label" for="inputModalAgregarReservacionFechaSalida">Fecha de salida:</label>
+                            <input type="date" class="form-control mb-1"
+                                id="inputModalAgregarReservacionFechaSalida" required>
+
+                            <label class="form-label" for="inputModalAgregarReservacionCantidadPersonas">Cantidad de personas:</label>
+                            <input type="number" class="form-control mb-1" min="1"
+                                id="inputModalAgregarReservacionCantidadPersonas"
+                                placeholder="Número de personas" required>
+
+                            <label class="form-label" for="inputModalAgregarReservacionEstado">Estado:</label>
+                            <select class="form-select mb-1" id="inputModalAgregarReservacionEstado" required>
+                                <option value="" disabled selected>Seleccione un estado</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Confirmada">Confirmada</option>
+                                <option value="Cancelada">Cancelada</option>
+                                <option value="Completada">Completada</option>
+                            </select>
+
+                            <label class="form-label" for="inputModalAgregarReservacionTotal">Total (₡):</label>
+                            <input type="number" class="form-control mb-1" min="0"
+                                id="inputModalAgregarReservacionTotal"
+                                placeholder="Costo total de la reservación" required>
+
+                            <label class="form-label" for="inputModalAgregarReservacionUsuario">Usuario:</label>
+                            <input type="text" class="form-control mb-1"
+                                id="inputModalAgregarReservacionUsuario"
+                                placeholder="Usuario que registra la reservación" required>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                            form="formAgregarReservacion">
+                            <i class="bi bi-x-circle-fill"></i> Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm" form="formAgregarReservacion">
+                            <i class="bi bi-save-fill"></i> Crear reservación
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal buscar cliente (compartido para agregar y editar) -->
+        <div class="modal fade" id="modalReservacionBuscarCliente" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5">Seleccionar cliente</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center justify-content-center">
+                                    <h3>Lista de clientes</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-info">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Nombre</th>
+                                                    <th scope="col">Apellidos</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaClientesEnModalReservacion">
+                                                <!-- Cargado dinámicamente -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal buscar habitación (compartido para agregar y editar) -->
+        <div class="modal fade" id="modalReservacionBuscarHabitacion" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5">Seleccionar habitación</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center justify-content-center">
+                                    <h3>Lista de habitaciones</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover table-info">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Número</th>
+                                                    <th scope="col">Tipo</th>
+                                                    <th scope="col">Precio</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaHabitacionesEnModalReservacion">
+                                                <!-- Cargado dinámicamente -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal editar reservación -->
+        <div class="modal fade" id="modalEditarReservacion" tabindex="-1" aria-labelledby="tituloModalEditarReservacion">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="tituloModalEditarReservacion">Editar reservación</h3>
+                        <button type="reset" form="formEditarReservacion" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" id="formEditarReservacion">
+
+                            <!-- Cliente (solo lectura, no se cambia en edición) -->
+                            <div class="row mb-2">
+                                <div class="col-4">
+                                    <label class="form-label">Cliente:</label>
+                                </div>
+                                <div class="col-8 d-flex align-items-center gap-1">
+                                    <input type="text" class="form-control"
+                                        id="inputModalEditarReservacionIdClienteSeleccionado"
+                                        placeholder="ID" disabled>
+                                    <input type="text" class="form-control"
+                                        id="inputModalEditarReservacionNombreClienteSeleccionado"
+                                        placeholder="Nombre" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Habitación (solo lectura, no se cambia en edición) -->
+                            <div class="row mb-2">
+                                <div class="col-4">
+                                    <label class="form-label">Habitación:</label>
+                                </div>
+                                <div class="col-8 d-flex align-items-center gap-1">
+                                    <input type="text" class="form-control"
+                                        id="inputModalEditarReservacionIdHabitacionSeleccionado"
+                                        placeholder="ID" disabled>
+                                    <input type="text" class="form-control"
+                                        id="inputModalEditarReservacionNumHabitacionSeleccionado"
+                                        placeholder="Número" disabled>
+                                </div>
+                            </div>
+
+                            <label class="form-label" for="inputModalEditarReservacionFechaEntrada">Fecha de entrada:</label>
+                            <input type="date" class="form-control mb-1"
+                                id="inputModalEditarReservacionFechaEntrada" required>
+
+                            <label class="form-label" for="inputModalEditarReservacionFechaSalida">Fecha de salida:</label>
+                            <input type="date" class="form-control mb-1"
+                                id="inputModalEditarReservacionFechaSalida" required>
+
+                            <label class="form-label" for="inputModalEditarReservacionCantidadPersonas">Cantidad de personas:</label>
+                            <input type="number" class="form-control mb-1" min="1"
+                                id="inputModalEditarReservacionCantidadPersonas"
+                                placeholder="Número de personas" required>
+
+                            <label class="form-label" for="inputModalEditarReservacionEstado">Estado:</label>
+                            <select class="form-select mb-1" id="inputModalEditarReservacionEstado" required>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Confirmada">Confirmada</option>
+                                <option value="Cancelada">Cancelada</option>
+                                <option value="Completada">Completada</option>
+                            </select>
+
+                            <label class="form-label" for="inputModalEditarReservacionTotal">Total (₡):</label>
+                            <input type="number" class="form-control mb-1" min="0"
+                                id="inputModalEditarReservacionTotal"
+                                placeholder="Costo total de la reservación" required>
+
+                            <label class="form-label" for="inputModalEditarReservacionUsuario">Usuario:</label>
+                            <input type="text" class="form-control mb-1"
+                                id="inputModalEditarReservacionUsuario"
+                                placeholder="Usuario que modifica la reservación" required>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"
+                            form="formEditarReservacion">
+                            <i class="bi bi-x-circle-fill"></i> Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm" form="formEditarReservacion">
+                            <i class="bi bi-save-fill"></i> Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal eliminar reservación -->
+        <div class="modal fade" id="modalEliminarReservacion" tabindex="-1" aria-labelledby="tituloEliminarReservacion">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h3 class="modal-title fs-5" id="tituloEliminarReservacion">Eliminar reservación</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Está seguro de que desea eliminar esta reservación?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle-fill"></i> Cerrar
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash-fill"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col text-center">
+                    <p>&copy; 2026 Linen & Stone. Todos los derechos reservados.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <p>Proyecto de Juan Diego Barrantes Loria C31015</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
