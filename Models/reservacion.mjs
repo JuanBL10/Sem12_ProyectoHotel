@@ -10,7 +10,7 @@ export default class Reservacion {
      * @param {string} fecha_entrada - Fecha de entrada (formato: YYYY-MM-DD).
      * @param {string} fecha_salida - Fecha de salida (formato: YYYY-MM-DD).
      * @param {number} cantidad_personas - Número de personas para la reservación.
-     * @param {string} estado - Estado de la reservación (Pendiente, Confirmada, Cancelada, Completada).
+     * @param {string} estado - Estado de la reservación (Pendiente, Confirmada, Cancelada, Finalizada).
      * @param {number} total - Costo total de la reservación.
      * @param {string} usuario - Usuario que registra o modifica la reservación.
      */

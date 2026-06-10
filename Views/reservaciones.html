@@ -69,9 +69,30 @@
             <div class="row">
                 <div class="col-12 col-md-3 d-flex align-items-start">
                     <input type="text" class="form-control me-2" id="barraBusquedaReservaciones"
-                        placeholder="Buscar por ID o estado" aria-label="Barra de búsqueda de reservación">
+                        placeholder="Buscar por ID reservación" aria-label="Barra de búsqueda de reservación">
                     <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaReservaciones"
                         title="Limpiar búsqueda" type="button"><i class="bi bi-eraser-fill"></i></button>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-12 col-md-3 d-flex align-items-start">
+                    <input type="text" class="form-control me-2" id="barraBusquedaReservacionesPorCliente"
+                        placeholder="Buscar por ID cliente" aria-label="Barra de búsqueda por cliente">
+                    <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaReservacionesPorCliente"
+                        title="Limpiar búsqueda" type="button"><i class="bi bi-eraser-fill"></i></button>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-12 col-md-3">
+                    <select class="form-select" id="selectBusquedaEstadoReservaciones">
+                        <option value="">Todos los estados</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Confirmada">Confirmada</option>
+                        <option value="Cancelada">Cancelada</option>
+                        <option value="Finalizada">Finalizada</option>
+                    </select>
                 </div>
             </div>
 
@@ -192,7 +213,7 @@
                                 <option value="Pendiente">Pendiente</option>
                                 <option value="Confirmada">Confirmada</option>
                                 <option value="Cancelada">Cancelada</option>
-                                <option value="Completada">Completada</option>
+                                <option value="Finalizada">Finalizada</option>
                             </select>
 
                             <label class="form-label" for="inputModalAgregarReservacionTotal">Total (₡):</label>
@@ -354,7 +375,7 @@
                                 <option value="Pendiente">Pendiente</option>
                                 <option value="Confirmada">Confirmada</option>
                                 <option value="Cancelada">Cancelada</option>
-                                <option value="Completada">Completada</option>
+                                <option value="Finalizada">Finalizada</option>
                             </select>
 
                             <label class="form-label" for="inputModalEditarReservacionTotal">Total (₡):</label>
