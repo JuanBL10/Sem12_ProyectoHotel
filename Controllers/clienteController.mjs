@@ -1,18 +1,13 @@
 import Cliente from '../Models/cliente.mjs';
 
-/** URL del endpoint de clientes en la API */
 const URLClientes = 'https://paginas-web-cr.com/Api/hotelApi/cliente/cliente.php';
 
 let temporizadorBusqueda;
-/** ID del cliente a eliminar, se asigna al hacer click en el botón Eliminar */
 let idClienteEliminar = -1;
-/** ID del cliente en edición, se asigna al abrir el modal de editar */
 let idClienteEditar = -1;
 
 document.addEventListener('DOMContentLoaded', () => {
     consultarClientes();
-
-    // --- Barra de búsqueda ---
 
     document.querySelector('#barraBusquedaClientes').addEventListener('input', evento => {
         clearTimeout(temporizadorBusqueda);
@@ -27,8 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#barraBusquedaClientes').value = '';
         consultarClientes();
     });
-
-    // --- Agregar cliente ---
 
     document.getElementById('formAgregarCliente').addEventListener('submit', evento => {
         evento.preventDefault();
@@ -52,8 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('formAgregarCliente').reset();
     });
 
-    // --- Editar cliente ---
-
     document.querySelector('#modalEditarCliente .btn-close').addEventListener('click', () => {
         document.getElementById('formEditarCliente').reset();
     });
@@ -67,17 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
         enviarDatosEditar();
     });
 
-    // --- Eliminar cliente ---
-
     document.getElementById('modalEliminarCliente').querySelector('.btn-danger').addEventListener('click', () => {
         eliminarCliente(idClienteEliminar);
         document.querySelector('#modalEliminarCliente .btn-close').click();
     });
 });
 
-/**
- * Consulta todos los clientes en la API y dibuja la tabla.
- */
 async function consultarClientes() {
     try {
         const response = await fetch(URLClientes, { method: 'GET' });
@@ -90,12 +76,6 @@ async function consultarClientes() {
     }
 }
 
-/**
- * Busca clientes por ID (exacto) o por nombre/apellidos (contiene, sin distinción de mayúsculas).
- * Hace GET general y filtra el resultado porque el endpoint ?id= retorna vacío para IDs reales
- * y el endpoint ?nombre= solo busca en el campo nombre, ignorando apellidos.
- * @param {string} valorBusqueda - Valor de la barra de búsqueda.
- */
 async function buscarClienteIdNombre(valorBusqueda) {
     try {
         const response = await fetch(URLClientes, { method: 'GET' });
@@ -120,11 +100,6 @@ async function buscarClienteIdNombre(valorBusqueda) {
     }
 }
 
-/**
- * Renderiza los clientes en el tbody de la tabla.
- * Asigna los eventos a los botones Editar y Eliminar de cada fila.
- * @param {Array} dataClientes - Arreglo de objetos cliente de la API.
- */
 function dibujarTablaClientes(dataClientes) {
     const tabla = document.getElementById('tablaClientes');
     tabla.innerHTML = '';
@@ -168,10 +143,6 @@ function dibujarTablaClientes(dataClientes) {
     });
 }
 
-/**
- * Envía una petición POST para crear un nuevo cliente en la API.
- * @param {Cliente} cliente - Objeto con los datos del formulario de agregar.
- */
 async function agregarCliente(cliente) {
     try {
         const response = await fetch(URLClientes, {
@@ -191,10 +162,6 @@ async function agregarCliente(cliente) {
     }
 }
 
-/**
- * Busca los datos de un cliente por ID y los carga en el formulario de edición.
- * @param {string} id - ID del cliente a editar.
- */
 async function abrirModalEditarCliente(id) {
     try {
         const dataCliente = await buscarClienteId(id);
@@ -216,9 +183,6 @@ async function abrirModalEditarCliente(id) {
     }
 }
 
-/**
- * Recopila los datos del formulario de edición y envía una petición PUT a la API.
- */
 async function enviarDatosEditar() {
     console.log('Enviando edición de cliente ID:', idClienteEditar);
     const clienteEditar = new Cliente(
@@ -250,11 +214,6 @@ async function enviarDatosEditar() {
     }
 }
 
-/**
- * Busca un cliente por su ID en la API.
- * @param {string} id - ID del cliente.
- * @returns {Object} Objeto con los datos del cliente.
- */
 async function buscarClienteId(id) {
     try {
         const response = await fetch(URLClientes, { method: 'GET' });
@@ -291,10 +250,6 @@ export function dibujarTablaClientesExportar(dataClientes, idTabla) {
     });
 }
 
-/**
- * Envía una petición DELETE para eliminar el cliente con el ID indicado.
- * @param {string} id - ID del cliente a eliminar.
- */
 async function eliminarCliente(id) {
     console.log('Eliminando cliente ID:', id);
     try {

@@ -1,27 +1,18 @@
 import Habitacion from '../Models/habitacion.mjs';
 import { consultarSedesExportar, dibujarTablaSedesExportar, URLSedes } from './sedeController.mjs';
 
-/** URL del endpoint de habitaciones en la API */
 const URLHabitaciones = 'https://paginas-web-cr.com/Api/hotelApi/habitacion/habitacion.php';
 
 let temporizadorBusqueda;
-/** ID de la habitación a eliminar, se asigna al hacer click en el botón Eliminar */
 let idHabitacionEliminar = -1;
-/** ID de la habitación en edición, se asigna al abrir el modal de editar */
 let idHabitacionEditar = -1;
-/** ID de sede de la habitación en edición, no se puede modificar desde el form */
 let idSedeHabitacionEditar = -1;
-/** Mapa de id_sede → nombre, se carga al inicio para mostrar nombres en la tabla */
 let mapaSedes = new Map();
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Carga el mapa de sedes antes de dibujar la tabla
     await cargarMapaSedes();
     consultarHabitaciones();
 
-    // --- Barra de búsqueda ---
-
-    // Búsqueda con debounce de 300ms: por ID si es número, por nombre de sede si es texto
     document.querySelector('#barraBusquedaHabitaciones').addEventListener('input', evento => {
         clearTimeout(temporizadorBusqueda);
         if (evento.target.value.trim() == '') {
@@ -31,21 +22,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         temporizadorBusqueda = setTimeout(() => buscarHabitacionIdNombre(evento.target.value.trim()), 300);
     });
 
-    // Limpia la barra y recarga todas las habitaciones
     document.getElementById('botonLimpiarBusquedaHabitaciones').addEventListener('click', () => {
         document.querySelector('#barraBusquedaHabitaciones').value = '';
         consultarHabitaciones();
     });
 
-    // --- Agregar habitación ---
-
-    // Carga la lista de sedes en el modal de búsqueda
     document.getElementById('botonModalAgregarHabitacionBuscarSede').addEventListener('click', async () => {
         const data = await consultarSedesExportar();
         dibujarTablaSedesExportar(data, 'tablaSedesEnModalAgregarHabitacion');
     });
 
-    // Al seleccionar una sede: rellena los campos del modal agregar y cierra el de búsqueda
     document.getElementById('tablaSedesEnModalAgregarHabitacion').addEventListener('click', evento => {
         const filaSeleccionada = evento.target.closest('tr');
         if (filaSeleccionada == null) return;
@@ -53,16 +39,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('inputModalAgregarHabitacionIdSedeSeleccionado').value = filaSeleccionada.getAttribute('data-id');
         document.getElementById('inputModalAgregarHabitacionNombreSedeSeleccionado').value = filaSeleccionada.dataset.nombre;
 
-        // Cierra el modal de búsqueda; hidden.bs.modal re-abre el modal de agregar
         document.getElementById('modalAgregarHabitacionBuscarSede').querySelector('.btn-close').click();
     });
 
-    // Re-abre el modal de agregar una vez que el modal de búsqueda termina de cerrarse
     document.getElementById('modalAgregarHabitacionBuscarSede').addEventListener('hidden.bs.modal', () => {
         bootstrap.Modal.getOrCreateInstance(document.getElementById('modalAgregarHabitacion')).show();
     });
 
-    // Captura el submit del formulario de agregar y crea el objeto Habitacion
     document.getElementById('formAgregarHabitacion').addEventListener('submit', evento => {
         evento.preventDefault();
         const habitacion = new Habitacion(
@@ -79,36 +62,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         agregarHabitacion(habitacion);
     });
 
-    // --- Editar habitación ---
-
-    // Resetea el formulario al cerrar el modal de editar con la X
     document.querySelector('#modalEditarHabitacion .btn-close').addEventListener('click', () => {
         document.getElementById('formEditarHabitacion').reset();
     });
 
-    // Resetea el formulario al cerrar el modal de editar con el botón Cerrar
     document.querySelector('#modalEditarHabitacion .btn-secondary').addEventListener('click', () => {
         document.getElementById('formEditarHabitacion').reset();
     });
 
-    // Captura el submit del formulario de editar
     document.getElementById('formEditarHabitacion').addEventListener('submit', evento => {
         evento.preventDefault();
         enviarDatosEditar();
     });
 
-    // --- Eliminar habitación ---
-
-    // Confirma la eliminación al hacer click en el botón Eliminar del modal de confirmación
     document.getElementById('modalEliminarHabitacion').querySelector('.btn-danger').addEventListener('click', () => {
         eliminarHabitacion(idHabitacionEliminar);
         document.querySelector('#modalEliminarHabitacion .btn-close').click();
     });
 });
 
-/**
- * Carga todas las sedes y construye un mapa id → nombre para usarlo en la tabla.
- */
 async function cargarMapaSedes() {
     const data = await consultarSedesExportar();
     if (data) {
@@ -116,9 +88,6 @@ async function cargarMapaSedes() {
     }
 }
 
-/**
- * Consulta todas las habitaciones en la API y dibuja la tabla.
- */
 async function consultarHabitaciones() {
     try {
         const response = await fetch(URLHabitaciones, { method: 'GET' });
@@ -131,15 +100,9 @@ async function consultarHabitaciones() {
     }
 }
 
-/**
- * Busca habitaciones por ID de habitación (número) o por nombre de sede (texto).
- * Si es texto: busca la sede por nombre, obtiene su ID y filtra habitaciones por id_sede.
- * @param {string} valorBusqueda - Valor de la barra de búsqueda.
- */
 async function buscarHabitacionIdNombre(valorBusqueda) {
     try {
         if (isNaN(valorBusqueda)) {
-            // Busca la sede por nombre y obtiene su ID
             const responseSede = await fetch(URLSedes + '?nombre=' + valorBusqueda, { method: 'GET' });
             const dataSede = await responseSede.json();
             console.log(dataSede.data);
@@ -149,7 +112,6 @@ async function buscarHabitacionIdNombre(valorBusqueda) {
                 return;
             }
 
-            // Busca habitaciones para cada sede encontrada y las combina
             const sedes = Array.isArray(dataSede.data) ? dataSede.data : [dataSede.data];
             const promesas = sedes.map(s => fetch(URLHabitaciones + '?id_sede=' + s.id, { method: 'GET' }).then(r => r.json()));
             const resultados = await Promise.all(promesas);
@@ -157,7 +119,6 @@ async function buscarHabitacionIdNombre(valorBusqueda) {
             console.log(todasHabitaciones);
             dibujarTablaHabitaciones(todasHabitaciones);
         } else {
-            // Busca por ID de habitación
             const response = await fetch(URLHabitaciones + '?id=' + valorBusqueda, { method: 'GET' });
             const data = await response.json();
             console.log(data.data);
@@ -170,17 +131,10 @@ async function buscarHabitacionIdNombre(valorBusqueda) {
     }
 }
 
-/**
- * Renderiza las habitaciones en el tbody de la tabla.
- * Usa mapaSedes para mostrar el nombre de la sede en lugar del ID.
- * Asigna los eventos a los botones Editar y Eliminar de cada fila.
- * @param {Array} dataHabitaciones - Arreglo de objetos habitación de la API.
- */
 function dibujarTablaHabitaciones(dataHabitaciones) {
     const tabla = document.getElementById('tablaHabitaciones');
     tabla.innerHTML = '';
     dataHabitaciones.forEach(habitacion => {
-        // Obtiene el nombre de la sede desde el mapa; si no existe muestra el ID
         const nombreSede = mapaSedes.get(String(habitacion.id_sede)) ?? habitacion.id_sede;
         let fila = `<tr>
             <td scope="row">${habitacion.id}</td>
@@ -208,7 +162,6 @@ function dibujarTablaHabitaciones(dataHabitaciones) {
         tabla.innerHTML += fila;
     });
 
-    // Asigna el evento editar: guarda el ID y carga los datos en el formulario
     document.querySelectorAll('#tablaHabitaciones .btn-warning').forEach(btn => {
         btn.addEventListener('click', evento => {
             idHabitacionEditar = evento.currentTarget.dataset.id;
@@ -216,7 +169,6 @@ function dibujarTablaHabitaciones(dataHabitaciones) {
         });
     });
 
-    // Asigna el evento eliminar: guarda el ID de la habitación seleccionada
     document.querySelectorAll('#tablaHabitaciones .btn-danger').forEach(btn => {
         btn.addEventListener('click', evento => {
             idHabitacionEliminar = evento.currentTarget.dataset.id;
@@ -224,10 +176,6 @@ function dibujarTablaHabitaciones(dataHabitaciones) {
     });
 }
 
-/**
- * Envía una petición POST para crear una nueva habitación en la API.
- * @param {Habitacion} habitacion - Objeto con los datos del formulario de agregar.
- */
 async function agregarHabitacion(habitacion) {
     try {
         const response = await fetch(URLHabitaciones, {
@@ -246,16 +194,10 @@ async function agregarHabitacion(habitacion) {
     }
 }
 
-/**
- * Busca los datos de una habitación por ID y los carga en el formulario de edición.
- * La sede no se puede cambiar desde el formulario; se guarda en idSedeHabitacionEditar.
- * @param {string} id - ID de la habitación a editar.
- */
 async function abrirModalEditarHabitacion(id) {
     try {
         const dataHabitacion = await buscarHabitacionId(id);
         idHabitacionEditar = dataHabitacion.id;
-        // La sede se guarda en variable, no en el formulario, ya que no se puede cambiar
         idSedeHabitacionEditar = dataHabitacion.id_sede;
         document.getElementById('inputModalEditarHabitacionNumero').value = dataHabitacion.numero;
         document.getElementById('inputModalEditarHabitacionTipo').value = dataHabitacion.tipo;
@@ -271,10 +213,6 @@ async function abrirModalEditarHabitacion(id) {
     }
 }
 
-/**
- * Recopila los datos del formulario de edición y envía una petición PUT a la API.
- * Usa idSedeHabitacionEditar para mantener la sede original de la habitación.
- */
 async function enviarDatosEditar() {
     const habitacionEditar = new Habitacion(
         idHabitacionEditar,
@@ -305,11 +243,6 @@ async function enviarDatosEditar() {
     }
 }
 
-/**
- * Busca una habitación por su ID en la API.
- * @param {string} id - ID de la habitación.
- * @returns {Object} Objeto con los datos de la habitación.
- */
 async function buscarHabitacionId(id) {
     const urlBusqueda = URLHabitaciones + '?id=' + id;
     try {
@@ -348,10 +281,6 @@ export function dibujarTablaHabitacionesExportar(dataHabitaciones, idTabla) {
     });
 }
 
-/**
- * Envía una petición DELETE para eliminar la habitación con el ID indicado.
- * @param {string} id - ID de la habitación a eliminar.
- */
 async function eliminarHabitacion(id) {
     try {
         const response = await fetch(URLHabitaciones, {

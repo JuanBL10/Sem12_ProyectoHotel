@@ -286,7 +286,6 @@ export { URLSedes };
 
 /**
  * Consulta todas las sedes de la API y las retorna.
- * @returns {Array} Arreglo de objetos sede.
  */
 export async function consultarSedesExportar() {
     try {
@@ -302,8 +301,6 @@ export async function consultarSedesExportar() {
 /**
  * Dibuja una tabla de sedes mostrando solo ID y nombre.
  * Se usa dentro del modal de selección de sede en habitaciones.
- * @param {Array} dataSedes - Arreglo de objetos sede.
- * @param {string} idTabla - ID del tbody donde se dibuja la tabla.
  */
 export function dibujarTablaSedesExportar(dataSedes, idTabla) {
     const tabla = document.getElementById(idTabla);
