@@ -371,6 +371,35 @@ async function eliminarReservacion(id) {
     }
 }
 
+export async function consultarReservacionesExportar(){
+    try {
+        const response = await fetch(URLReservaciones, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        return data.data;
+    }
+    catch (error) {
+        console.error('Error al consultar las reservaciones:', error);
+    }
+}
+
+export function dibujarTablaReservacionesExportar(dataReservaciones, idTabla){
+    const tabla = document.getElementById(idTabla);
+    tabla.innerHTML = '';
+    dataReservaciones.forEach(reservacion => {
+        let fila = `<tr data-id="${reservacion.id}" data-info="${reservacion.estado}">
+            <td>${reservacion.id}</td>
+            <td>${reservacion.id_cliente}</td>
+            <td>${reservacion.id_habitacion}</td>
+            <td>${reservacion.fecha_entrada}</td>
+            <td>${reservacion.fecha_salida}</td>
+            <td>${reservacion.estado}</td>
+        </tr>`;
+        tabla.innerHTML += fila;
+    });
+}
+
 export async function buscarReservacionesPorClienteExportar(idCliente){
     try {
         const response = await fetch(URLReservaciones + '?id_cliente=' + idCliente, {

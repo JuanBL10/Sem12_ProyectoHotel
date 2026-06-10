@@ -69,8 +69,17 @@
             <div class="row">
                 <div class="col-12 col-md-3 d-flex align-items-start">
                     <input type="text" class="form-control me-2" id="barraBusquedaPagos"
-                        placeholder="Buscar por ID o estado" aria-label="Barra de búsqueda de pago">
+                        placeholder="Buscar por ID pago" aria-label="Barra de búsqueda de pago">
                     <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaPagos"
+                        title="Limpiar búsqueda" type="button"><i class="bi bi-eraser-fill"></i></button>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-12 col-md-3 d-flex align-items-start">
+                    <input type="text" class="form-control me-2" id="barraBusquedaPagosPorReservacion"
+                        placeholder="Buscar por ID reservación" aria-label="Barra de búsqueda por reservación">
+                    <button class="btn btn-light btn-sm" id="botonLimpiarBusquedaPagosPorReservacion"
                         title="Limpiar búsqueda" type="button"><i class="bi bi-eraser-fill"></i></button>
                 </div>
             </div>
@@ -173,8 +182,8 @@
                             <select class="form-select mb-1" id="inputModalAgregarPagoEstado" required>
                                 <option value="" disabled selected>Seleccione un estado</option>
                                 <option value="Pendiente">Pendiente</option>
-                                <option value="Completado">Completado</option>
-                                <option value="Cancelado">Cancelado</option>
+                                <option value="Pagado">Pagado</option>
+                                <option value="Rechazado">Rechazado</option>
                             </select>
 
                             <label class="form-label" for="inputModalAgregarPagoFechaPago">Fecha de pago:</label>
@@ -288,8 +297,8 @@
                             <label class="form-label" for="inputModalEditarPagoEstado">Estado:</label>
                             <select class="form-select mb-1" id="inputModalEditarPagoEstado" required>
                                 <option value="Pendiente">Pendiente</option>
-                                <option value="Completado">Completado</option>
-                                <option value="Cancelado">Cancelado</option>
+                                <option value="Pagado">Pagado</option>
+                                <option value="Rechazado">Rechazado</option>
                             </select>
 
                             <label class="form-label" for="inputModalEditarPagoFechaPago">Fecha de pago:</label>
