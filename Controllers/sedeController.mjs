@@ -8,6 +8,7 @@ let idSedeEditar = -1;
 let modoModal = 'agregar';
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('tablaSedes') == null) return;
     consultarSedes();
 
     //Eventos de barra de busqueda

@@ -7,6 +7,7 @@ let idClienteEliminar = -1;
 let idClienteEditar = -1;
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('tablaClientes') == null) return;
     consultarClientes();
 
     document.querySelector('#barraBusquedaClientes').addEventListener('input', evento => {

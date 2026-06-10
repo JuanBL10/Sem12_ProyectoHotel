@@ -10,6 +10,7 @@ let idSedeHabitacionEditar = -1;
 let mapaSedes = new Map();
 
 document.addEventListener('DOMContentLoaded', async () => {
+    if (document.getElementById('tablaHabitaciones') == null) return;
     await cargarMapaSedes();
     consultarHabitaciones();
 

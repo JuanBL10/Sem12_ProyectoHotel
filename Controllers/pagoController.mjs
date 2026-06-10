@@ -7,6 +7,7 @@ let idPagoEliminar = -1;
 let idPagoEditar = -1;
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('tablaPagos') == null) return;
     consultarPagos();
 
     // Barra ID pago

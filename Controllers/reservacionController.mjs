@@ -9,6 +9,7 @@ let idReservacionEditar = -1;
 let modoModal = 'agregar';
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('tablaReservaciones') == null) return;
     consultarReservaciones();
 
     // Barra ID reservación
