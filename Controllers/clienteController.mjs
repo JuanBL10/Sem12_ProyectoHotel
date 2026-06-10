@@ -267,6 +267,30 @@ async function buscarClienteId(id) {
     }
 }
 
+export async function consultarClientesExportar() {
+    try {
+        const response = await fetch(URLClientes, { method: 'GET' });
+        const data = await response.json();
+        return data.data;
+    }
+    catch (error) {
+        console.error('Error al consultar los clientes:', error);
+    }
+}
+
+export function dibujarTablaClientesExportar(dataClientes, idTabla) {
+    const tabla = document.getElementById(idTabla);
+    tabla.innerHTML = '';
+    dataClientes.forEach(cliente => {
+        let fila = `<tr data-id="${cliente.id}" data-nombre="${cliente.nombre}">
+            <td>${cliente.id}</td>
+            <td>${cliente.nombre}</td>
+            <td>${cliente.apellidos}</td>
+        </tr>`;
+        tabla.innerHTML += fila;
+    });
+}
+
 /**
  * Envía una petición DELETE para eliminar el cliente con el ID indicado.
  * @param {string} id - ID del cliente a eliminar.

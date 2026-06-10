@@ -323,6 +323,31 @@ async function buscarHabitacionId(id) {
     }
 }
 
+export async function consultarHabitacionesExportar() {
+    try {
+        const response = await fetch(URLHabitaciones, { method: 'GET' });
+        const data = await response.json();
+        return data.data;
+    }
+    catch (error) {
+        console.error('Error al consultar las habitaciones:', error);
+    }
+}
+
+export function dibujarTablaHabitacionesExportar(dataHabitaciones, idTabla) {
+    const tabla = document.getElementById(idTabla);
+    tabla.innerHTML = '';
+    dataHabitaciones.forEach(habitacion => {
+        let fila = `<tr data-id="${habitacion.id}" data-numero="${habitacion.numero}">
+            <td>${habitacion.id}</td>
+            <td>${habitacion.numero}</td>
+            <td>${habitacion.tipo}</td>
+            <td>${habitacion.precio}</td>
+        </tr>`;
+        tabla.innerHTML += fila;
+    });
+}
+
 /**
  * Envía una petición DELETE para eliminar la habitación con el ID indicado.
  * @param {string} id - ID de la habitación a eliminar.
